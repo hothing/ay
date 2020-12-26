@@ -4,13 +4,21 @@ project AY is
    for Source_Dirs use ("src");
    for Object_Dir use "obj/";
    for Main use ("main.adb");
-   type AsmGen_Type is
+   type Asmgen_Type is
       ("Yes", "No");
-   AsmGen : AsmGen_Type := external ("AsmGen", "No");
+   Asmgen : Asmgen_Type := external ("AsmGen", "No");
 
    package Ide is
-      for Vcs_Kind use "Git";
       for Documentation_Dir use "doc/";
+
+      case Asmgen is
+
+         when "Yes" =>
+            for Vcs_Kind use "Git";
+
+         when "No" =>
+            for Vcs_Kind use "git";
+      end case;
    end Ide;
 
    package Builder is
@@ -18,19 +26,19 @@ project AY is
 
    package Compiler is
 
-      case AsmGen is
+      case Asmgen is
 
          when "Yes" =>
             for Default_Switches ("ada") use ("-S", "-fverbose-asm", "-gnatp", "-O3", "-funroll-loops", "-gnatn");
 
          when "No" =>
-            for Default_Switches ("ada") use ("-fprofile-arcs", "-ftest-coverage", "-fcallgraph-info=su,da", "-g", "-gnata", "-pg");
+            for Default_Switches ("ada") use ("-gnata", "-g", "-gnat95", "-gnato", "-fstack-check");
       end case;
    end Compiler;
 
    package Linker is
 
-      case AsmGen is
+      case Asmgen is
 
          when "Yes" =>
 
@@ -38,6 +46,17 @@ project AY is
             for Default_Switches ("ada") use ("-fprofile-generate", "-g", "-pg");
       end case;
    end Linker;
+
+   package Binder is
+
+      case Asmgen is
+
+         when "Yes" =>
+
+         when "No" =>
+            for Switches ("ada") use ("-E");
+      end case;
+   end Binder;
 
 end AY;
 
