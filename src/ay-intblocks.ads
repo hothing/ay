@@ -4,7 +4,7 @@ with Ay.Block; use Ay.Block;
 
 package Ay.IntBlocks is
 
-   type T_IntAdd is new T_Block with null record;
+   type T_IntAdd is new T_Block(3) with null record;
 
    -- The method 'Init' initializes the block
    function doInit(b : in T_IntAdd) return Boolean;
