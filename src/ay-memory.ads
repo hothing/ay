@@ -28,11 +28,11 @@ package Ay.Memory is
    type T_Value (DataType: T_DataType) is record
       --meta : integer;
       case DataType is
-         when DT_Bool => m : aliased Boolean;
-         when DT_Int => di : aliased Integer;
+         when DT_Bool => m : aliased Boolean; m_init : Boolean;
+         when DT_Int => di : aliased Integer; di_init : Integer;
          when DT_Word => dw : aliased Unsigned_32;
-         when DT_Float => fp : aliased Float;
-         when DT_LongFloat => lfp : aliased Long_Float;
+         when DT_Float => fp : aliased Float; fp_init : Float;
+         when DT_LongFloat => lfp : aliased Long_Float; lfp_init : Long_Float;
          --when others => null;
       end case;
    end record;
