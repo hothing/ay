@@ -26,13 +26,14 @@ package Ay.Memory is
    end record;
 
    type T_Value (DataType: T_DataType) is record
-      meta : integer;
+      --meta : integer;
       case DataType is
          when DT_Bool => m : aliased Boolean;
          when DT_Int => di : aliased Integer;
          when DT_Word => dw : aliased Unsigned_32;
          when DT_Float => fp : aliased Float;
          when DT_LongFloat => lfp : aliased Long_Float;
+         --when others => null;
       end case;
    end record;
 
@@ -63,7 +64,7 @@ package Ay.Memory is
    type T_MemoryBlock (DataType: T_DataType;
                        Size : Positive) is record
       next : P_MemoryBlock;
-      used : T_BlockMarks;
+      used : T_BlockMarks(1 .. size);
       case DataType is
          when DT_Bool => mblk : T_BoolMemory(1 .. Size);
          when DT_Int => iblk : T_IntMemory(1 .. Size);
