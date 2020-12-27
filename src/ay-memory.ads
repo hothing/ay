@@ -37,6 +37,33 @@ package Ay.Memory is
       end case;
    end record;
 
+   type T_XValue (DataType: T_DataType := DT_Int) is record
+      case DataType is
+         when DT_Bool => m : aliased Boolean; m_init : Boolean;
+         when DT_Int => di : aliased Integer; di_init : Integer;
+         when DT_Word => dw : aliased Unsigned_32;
+         when DT_Float => fp : aliased Float; fp_init : Float;
+         when DT_LongFloat => lfp : aliased Long_Float; lfp_init : Long_Float;
+      end case;
+   end record;
+
+   type T_YValue is new T_XValue;
+   pragma Unchecked_Union(T_YValue);
+
+   type T_ZValue is record
+      des : T_DataType;
+      val : T_YValue;
+   end record;
+
+   type T_FlatValue is record
+      des : T_DataType;
+      m : aliased Boolean; m_init : Boolean;
+      di : aliased Integer; di_init : Integer;
+      dw : aliased Unsigned_32;
+      fp : aliased Float; fp_init : Float;
+      lfp : aliased Long_Float; lfp_init : Long_Float;
+   end record;
+
    type P_Value is access all T_Value;
 
    type T_ReferenceMemory is array (Positive range <>) of P_Value;
