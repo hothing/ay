@@ -1,52 +1,77 @@
 package body Ay.Block is
 
 
-   -- A function 'fixupVar' checks the data type of an instance variable
-   -- and set up the access mode and binds variable to the cell in global memory
-   function fixupVar(mem : P_MemoryBlock;
-                     offset : Positive;
-                     b : in T_Block'Class;
-                     idx: Positive;
-                     dt : T_DataType;
-                     acc : T_VariableAccess
-                    ) return Boolean is
-   begin
-      return False;
-   end;
+   package body Boot is
+
+      procedure NewBool(b : in out T_Block'Class;
+                                         idx : Positive;
+                                         vacc : T_VariableAccess) is
+      begin
+         b.vars(idx) := new T_Value(DT_Bool);
+         b.vacc(idx) := vacc;
+      end;
+
+      procedure NewInt(b : in out T_Block'Class; idx : Positive; vacc : T_VariableAccess)  is
+      begin
+         b.vars(idx) := new T_Value(DT_Int);
+         b.vacc(idx) := vacc;
+      end;
+
+      procedure NewFloat(b : in out T_Block'Class; idx : Positive; vacc : T_VariableAccess) is
+      begin
+         b.vars(idx) := new T_Value(DT_Float);
+         b.vacc(idx) := vacc;
+      end;
+
+      procedure NewLFloat(b : in out T_Block'Class; idx : Positive; vacc : T_VariableAccess) is
+      begin
+         b.vars(idx) := new T_Value(DT_LongFloat);
+         b.vacc(idx) := vacc;
+      end;
 
 
-   -- A function 'bindInputVar' binds the output of another block or global variable
-   -- with instance variable
-   -- The mode of the instance variablemust be 'Var_Input' or 'Var_InOut'.
-   -- Otherwise the function do nothing and return 'False' value
+      -- A function 'bindInput' binds the input of block with output of another block
+      -- The mode of the instance variablemust be 'Var_Input' or 'Var_InOut'.
+      -- Otherwise the function do nothing and return 'False' value
+      procedure bindInput(b : in out T_Block'Class;
+                            idx: Positive;
+                            outVar : P_Value;
+                          res : out Boolean) is
+      begin
+         res := false;
+         if (b.vacc(idx) = Var_Input) or (b.vacc(idx) = Var_InOut) then
+            b.vars(idx) := outVar;
+            res := true;
+         end if;
+      end;
 
-   function bindInputVar(outVar : P_Value;
-                         b : in T_Block'Class;
-                         idx: Positive
-                        ) return Boolean is
-   begin
-      return False;
-   end;
 
-   -- A function 'getOutput' returns a reference to the output in global memory
-   function getOut(dummy : integer;
-                   b : in T_Block'Class;
-                   idx: Positive
-                  ) return P_Value is
-   begin
-      return null;
-   end;
+      -- A function 'getOutput' returns a reference to the output in global memory
+      function getOutput(b : in T_Block'Class;
+                      idx: Positive
+                     ) return P_Value is
+      begin
+         return b.vars(idx);
+      end;
+
+   end Boot;
 
    -- The method 'Init' initializes the block
-   function Init(b : in T_Block'Class) return Boolean is
+   procedure Init (b : in out T_Block'Class; res : out Boolean) is
    begin
-      return doInit(b);
+      doInit(b, res);
    end;
 
    -- The method 'Calc[ulate]' implements the function (subprogram)
-   function Calc (b : in T_Block'Class) return Boolean is
+   procedure Calc (b : in out T_Block'Class; res : out Boolean) is
    begin
-      return doCalc(b);
+      doCalc(b, res);
+   end;
+
+   -- The method 'Final' releases the block resources
+   procedure Final(b : in out T_Block'Class) is
+   begin
+      doFinal(b);
    end;
 
    ---------------------------------------------------------------------------
@@ -54,67 +79,74 @@ package body Ay.Block is
    -- The methods to access instance variable
    function GetBool(b : in T_Block'Class; idx : Positive) return Boolean is
    begin
-      return b.dataref(idx).m;
+      return b.vars(idx).m;
    end;
 
    function GetInt(b : in T_Block'Class; idx : Positive) return Integer is
    begin
-      return b.dataref(idx).di;
+      return b.vars(idx).di;
    end;
 
    --function GetWord(b : in T_Block; idx : Positive) return Unsigned_32;
 
    function GetFloat(b : in T_Block'Class; idx : Positive) return Float is
    begin
-      return b.dataref(idx).fp;
+      return b.vars(idx).fp;
    end;
 
    function GetLFloat(b : in T_Block'Class; idx : Positive) return Long_Float is
    begin
-      return b.dataref(idx).lfp;
+      return b.vars(idx).lfp;
    end;
 
-   procedure SetBool(b : in T_Block'Class; idx : Positive; val : Boolean) is
+   procedure SetBool(b : in out T_Block'Class; idx : Positive; val : Boolean) is
    begin
-      if b.dface(idx) /= Var_Input then
-         b.dataref(idx).m := val;
+      if b.vacc(idx) /= Var_Input then
+         b.vars(idx).m := val;
       end if;
    end;
 
-   procedure SetInt(b : in T_Block'Class; idx : Positive; val : Integer) is
+   procedure SetInt(b : in out T_Block'Class; idx : Positive; val : Integer) is
    begin
-      if b.dface(idx) /= Var_Input then
-         b.dataref(idx).di := val;
+      if b.vacc(idx) /= Var_Input then
+         b.vars(idx).di := val;
       end if;
    end;
 
-   procedure SetFloat(b : in T_Block'Class; idx : Positive; val : Float) is
+   procedure SetFloat(b : in out T_Block'Class; idx : Positive; val : Float) is
    begin
-      if b.dface(idx) /= Var_Input then
-         b.dataref(idx).fp := val;
+      if b.vacc(idx) /= Var_Input then
+         b.vars(idx).fp := val;
       end if;
    end;
 
-   procedure SetLFloat(b : in T_Block'Class; idx : Positive; val : Long_Float) is
+   procedure SetLFloat(b : in out T_Block'Class; idx : Positive; val : Long_Float) is
    begin
-      if b.dface(idx) /= Var_Input then
-         b.dataref(idx).lfp := val;
+      if b.vacc(idx) /= Var_Input then
+         b.vars(idx).lfp := val;
       end if;
    end;
 
    ---------------------------------------------------------------------------
 
    -- The method 'Init' initializes the block
-   function doInit(b : in T_Block) return Boolean is
+   procedure doInit(b : in out T_Block; res : out Boolean) is
    begin
-      return False;
+      res := False;
    end;
 
 
-   -- The method 'Calc[ulate]' implements the function (subprogram)
-   function doCalc (b : in T_Block) return Boolean is
+   -- The method 'Calc[ulate]' implements the addition of the integers
+   procedure doCalc (b : in out T_Block; res : out Boolean) is
    begin
-      return False;
+      res := False;
    end;
+
+   -- The method 'Final' releases the block resources
+   procedure doFinal (b : in out T_Block) is
+   begin
+      null;
+   end;
+
 
 end Ay.Block;

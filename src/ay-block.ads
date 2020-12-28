@@ -9,10 +9,7 @@ package Ay.Block is
 
    type T_VarAccessArray is array (Positive range <>) of T_VariableAccess;
    
-   type T_Block (Size : Positive) is tagged record
-      dataref : P_ReferenceMemory(1 .. Size);
-      dface : T_VarAccessArray(1 .. Size); 
-   end record;
+   type T_Block (Size : Positive) is tagged limited private;
 
    type P_Block is access all T_Block'Class;
    
@@ -22,66 +19,72 @@ package Ay.Block is
       next : P_BlockChain;
       block : P_Block;
    end record;
-
-   -- A function 'fixupVar' checks the data type of an instance variable 
-   -- and set up the access mode and binds variable to the cell in global memory
-   function fixupVar(mem : P_MemoryBlock;
-                     offset : Positive;
-                     b : in T_Block'Class; 
-                     idx: Positive;
-                     dt : T_DataType;
-                     acc : T_VariableAccess                     
-                     ) return Boolean;
-
-   -- A function 'bindInputVar' binds the output of another block or global variable
-   -- with instance variable
-   -- The mode of the instance variablemust be 'Var_Input' or 'Var_InOut'. 
-   -- Otherwise the function do nothing and return 'False' value
-   
-   function bindInputVar(outVar : P_Value;
-                         b : in T_Block'Class; 
-                         idx: Positive
-                        ) return Boolean;
-   
-   -- A function 'getOutput' returns a reference to the output in global memory
-   function getOut(dummy : integer;
-                   b : in T_Block'Class; 
-                   idx: Positive
-                  ) return P_Value;
-   
+  
    -- The method 'Init' initializes the block 
-   function Init(b : in T_Block'Class) return Boolean;
-
-   -- The method 'Calc[ulate]' implements the function (subprogram)
-   function Calc (b : in T_Block'Class) return Boolean;
+   procedure Init (b : in out T_Block'Class; res : out Boolean);
    
+   -- The method 'Calc[ulate]' implements the function (subprogram)
+   procedure Calc (b : in out T_Block'Class; res : out Boolean);
+   
+   -- The method 'Final' releases the block resources
+   procedure Final(b : in out T_Block'Class);
+   
+   ---------------------------------------------------------------------------
+   package Boot is
+      procedure NewBool(b : in out T_Block'Class; idx : Positive; vacc : T_VariableAccess);
+      procedure NewInt(b : in out T_Block'Class; idx : Positive; vacc : T_VariableAccess);
+      procedure NewFloat(b : in out T_Block'Class; idx : Positive; vacc : T_VariableAccess);
+      procedure NewLFloat(b : in out T_Block'Class; idx : Positive; vacc : T_VariableAccess); 
+      
+      -- A function 'bindInput' binds the input of block with output of another block 
+      -- The mode of the instance variablemust be 'Var_Input' or 'Var_InOut'. 
+      -- Otherwise the function do nothing and return 'False' value
+      procedure bindInput(b : in out T_Block'Class; 
+                            idx: Positive;
+                            outVar : P_Value;                            
+                          res : out Boolean);
+   
+      -- A function 'getOutput' returns a reference to the output in global memory
+      function getOutput(b : in T_Block'Class; 
+                      idx: Positive
+                     ) return P_Value; 
+   end Boot;
    ---------------------------------------------------------------------------
    
    -- The methods to access instance variable
    function GetBool(b : in T_Block'Class; idx : Positive) return Boolean;
    
    function GetInt(b : in T_Block'Class; idx : Positive) return Integer;
-   
-   --function GetWord(b : in T_Block; idx : Positive) return Unsigned_32;
-   
+      
    function GetFloat(b : in T_Block'Class; idx : Positive) return Float;
    
    function GetLFloat(b : in T_Block'Class; idx : Positive) return Long_Float;
    
-   procedure SetBool(b : in T_Block'Class; idx : Positive; val : Boolean);
+   procedure SetBool(b : in out T_Block'Class; idx : Positive; val : Boolean);
    
-   procedure SetInt(b : in T_Block'Class; idx : Positive; val : Integer);
+   procedure SetInt(b : in out T_Block'Class; idx : Positive; val : Integer);
    
-   procedure SetFloat(b : in T_Block'Class; idx : Positive; val : Float);
+   procedure SetFloat(b : in out T_Block'Class; idx : Positive; val : Float);
    
-   procedure SetLFloat(b : in T_Block'Class; idx : Positive; val : Long_Float);
+   procedure SetLFloat(b : in out T_Block'Class; idx : Positive; val : Long_Float);
    
    ---------------------------------------------------------------------------
    
    -- The method 'Init' initializes the block 
-   function doInit(b : in T_Block) return Boolean;
+   procedure doInit (b : in out T_Block; res : out Boolean);
    
    -- The method 'Calc[ulate]' implements the function (subprogram)
-   function doCalc (b : in T_Block) return Boolean; 
-  
+   procedure doCalc (b : in out T_Block; res : out Boolean); 
+   
+   -- The method 'Final' releases the block resources
+   procedure doFinal (b : in out T_Block);
+      
+   
+private
+   
+   type T_Block (Size : Positive) is tagged limited record
+      vacc : T_VarAccessArray (1 .. size);
+      vars : T_ReferenceMemory (1 .. size);
+   end record;
+     
 end Ay.Block;
