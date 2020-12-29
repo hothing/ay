@@ -44,9 +44,11 @@ package body Ay.Block is
            or (b.vacc(idx) = Var_InOut)
            or (b.vacc(idx) = Var_Global)
          then
-            b.vars(idx) := outVar;
-            b.vbnd(idx) := True;
-            res := true;
+            if outVar /= null then
+               b.vars(idx) := outVar;
+               b.vbnd(idx) := True;
+               res := true;
+            end if;
          end if;
       end;
 
@@ -55,7 +57,12 @@ package body Ay.Block is
                       idx: Positive
                      ) return P_Value is
       begin
-         return b.vars(idx);
+         if (b.vacc(idx) = Var_Output) then
+            return b.vars(idx);
+         else
+            return null;
+            -- FIXME? may be raise an exception?
+         end if;
       end;
 
    end Boot;
