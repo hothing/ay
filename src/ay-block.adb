@@ -27,6 +27,7 @@ package body Ay.Block is
       begin
          b.vars(idx) := new T_Value(DT_LongFloat);
          b.vacc(idx) := vacc;
+         b.vbnd(idx) := False;
       end;
 
 
@@ -39,12 +40,15 @@ package body Ay.Block is
                           res : out Boolean) is
       begin
          res := false;
-         if (b.vacc(idx) = Var_Input) or (b.vacc(idx) = Var_InOut) then
+         if (b.vacc(idx) = Var_Input)
+           or (b.vacc(idx) = Var_InOut)
+           or (b.vacc(idx) = Var_Global)
+         then
             b.vars(idx) := outVar;
+            b.vbnd(idx) := True;
             res := true;
          end if;
       end;
-
 
       -- A function 'getOutput' returns a reference to the output in global memory
       function getOutput(b : in T_Block'Class;
@@ -57,19 +61,19 @@ package body Ay.Block is
    end Boot;
 
    -- The method 'Init' initializes the block
-   procedure Init (b : in out T_Block'Class; res : out Boolean) is
+   procedure init (b : in out T_Block'Class; res : out Boolean) is
    begin
       doInit(b, res);
    end;
 
    -- The method 'Calc[ulate]' implements the function (subprogram)
-   procedure Calc (b : in out T_Block'Class; res : out Boolean) is
+   procedure calc (b : in out T_Block'Class; res : out Boolean) is
    begin
       doCalc(b, res);
    end;
 
    -- The method 'Final' releases the block resources
-   procedure Final(b : in out T_Block'Class) is
+   procedure finalize(b : in out T_Block'Class) is
    begin
       doFinal(b);
    end;
@@ -145,7 +149,16 @@ package body Ay.Block is
    -- The method 'Final' releases the block resources
    procedure doFinal (b : in out T_Block) is
    begin
-      null;
+      for i in b.vars'First .. b.vars'Last loop
+         if not b.vbnd(i) then
+            destroyVar(b.vars(i));
+         end if;
+      end loop;
+   end;
+
+   function hasBind(b : in T_Block'Class; idx : Positive) return Boolean is
+   begin
+      return b.vbnd(idx);
    end;
 
 

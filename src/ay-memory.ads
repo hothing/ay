@@ -1,4 +1,5 @@
 with Interfaces; use Interfaces;
+with Unchecked_Deallocation ;
 
 package Ay.Memory is
 
@@ -22,5 +23,7 @@ package Ay.Memory is
    type P_ReferenceMemory is access all T_ReferenceMemory;
 
    procedure Init;
+
+   procedure destroyVar is new Unchecked_Deallocation ( T_Value , P_Value ) ;
 
 end Ay.Memory;
