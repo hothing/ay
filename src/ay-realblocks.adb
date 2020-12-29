@@ -12,7 +12,7 @@ package body Ay.RealBlocks is
    procedure doInit(b : in out T_FloatGlobal; res : out Boolean) is
    begin
       res := False;
-      Ay.Block.Boot.NewFloat(b, 1, Var_Static);
+      Ay.Block.Boot.NewFloat(b, 1, Var_Global);
       res := True;
    end;
 
