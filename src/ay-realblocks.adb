@@ -2,12 +2,6 @@ with Ay.Block; use Ay.Block;
 
 package body Ay.RealBlocks is
 
---     type T_FloadBlock3 is record
---        in1 : aliased T_Value(DT_Float);
---        in2 : aliased T_Value(DT_Float);
---        out1 : aliased T_Value(DT_Float);
---     end record;
-
    -- The method 'Init' initializes the block
    procedure doInit(b : in out T_FloatGlobal; res : out Boolean) is
    begin
@@ -22,14 +16,6 @@ package body Ay.RealBlocks is
       res := True;
    end;
 
-   -- The method 'Final' releases the block resources
-   procedure doFinal (b : in out T_FloatGlobal; res : out Boolean) is
-   begin
-      res := False;
-      pragma Compile_Time_Warning (Standard.True, "T_FloatGlobal::doFinal unimplemented");
-      raise Program_Error;
-   end;
-
    -- The method 'Init' initializes the block
    procedure doInit(b : in out T_FloatAdd; res : out Boolean) is
    begin
@@ -41,7 +27,7 @@ package body Ay.RealBlocks is
    end;
 
 
-   -- The method 'Calc[ulate]' implements the addition of the integers
+   -- The method 'Calc[ulate]' implements the addition of the floats
    procedure doCalc (b : in out T_FloatAdd; res : out Boolean) is
       x : Float := 0.0;
    begin
@@ -51,14 +37,42 @@ package body Ay.RealBlocks is
       res := True;
    end;
 
-   -- The method 'Final' releases the block resources
-   procedure doFinal (b : in out T_FloatAdd; res : out Boolean) is
+
+   -- The method 'Calc[ulate]' implements the substraction of the floats
+   procedure doCalc (b : in out T_FloatSub; res : out Boolean) is
+      x : Float := 0.0;
    begin
       res := False;
-      pragma Compile_Time_Warning (Standard.True, "T_FloatAdd::doFinal unimplemented");
-      raise Program_Error;
+      x := GetFloat(b, 1) - GetFloat(b, 2);
+      SetFloat(b, 3, x);
+      res := True;
    end;
 
+   -- The method 'Calc[ulate]' implements the multiplication of the floats
+   procedure doCalc (b : in out T_FloatMult; res : out Boolean) is
+      x : Float := 0.0;
+   begin
+      res := False;
+      x := GetFloat(b, 1) * GetFloat(b, 2);
+      SetFloat(b, 3, x);
+      res := True;
+   end;
+
+   -- The method 'Calc[ulate]' implements the division of the floats
+   procedure doCalc (b : in out T_FloatDiv; res : out Boolean) is
+      x, y, z : Float := 0.0;
+   begin
+      res := False;
+      x := GetFloat(b, 1);
+      y := GetFloat(b, 2);
+      if abs(y) > Float'Model_Epsilon then
+         z := x / y ;
+      else
+         z := Float'Large;
+      end if;
+      SetFloat(b, 3, z);
+      res := True;
+   end;
 
    --  Generated stub: replace with real body!
    --   pragma Compile_Time_Warning (Standard.True, "XXX unimplemented");

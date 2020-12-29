@@ -14,14 +14,6 @@ package body Ay.IntBlocks is
       res := True;
    end;
 
-   -- The method 'Final' releases the block resources
-   procedure doFinal (b : in out T_IntGlobal; res : out Boolean) is
-   begin
-      res := False;
-      pragma Compile_Time_Warning (Standard.True, "T_IntGlobal::doFinal unimplemented");
-      raise Program_Error;
-   end;
-
    -- The method 'Init' initializes the block
    procedure doInit(b : in out T_IntAdd; res : out Boolean) is
    begin
@@ -43,12 +35,37 @@ package body Ay.IntBlocks is
       res := True;
    end;
 
-   -- The method 'Final' releases the block resources
-   procedure doFinal (b : in out T_IntAdd; res : out Boolean) is
+   procedure doCalc (b : in out T_IntSub; res : out Boolean) is
+      x : Integer := 0;
    begin
       res := False;
-      pragma Compile_Time_Warning (Standard.True, "T_IntAdd::doFinal unimplemented");
-      raise Program_Error;
+      x := GetInt(b, 1) - GetInt(b, 2);
+      SetInt(b, 3, x);
+      res := True;
+   end;
+
+   procedure doCalc (b : in out T_IntMult; res : out Boolean) is
+      x : Integer := 0;
+   begin
+      res := False;
+      x := GetInt(b, 1) * GetInt(b, 2);
+      SetInt(b, 3, x);
+      res := True;
+   end;
+
+   procedure doCalc (b : in out T_IntDiv; res : out Boolean) is
+      x, y, z : Integer := 0;
+   begin
+      res := False;
+      x := GetInt(b, 1);
+      y := GetInt(b, 2);
+      if y /= 0 then
+         z := x / y;
+      else
+         z := Integer'Last;
+      end if;
+      SetInt(b, 3, z);
+      res := True;
    end;
 
 end Ay.IntBlocks;

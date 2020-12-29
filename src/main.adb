@@ -15,6 +15,8 @@ procedure Main is
    fadd : T_FloatAdd;
    --pb : P_Block;
    r , r2 : Boolean;
+   n : Integer := 10_000;
+   m : Integer := 5;
 begin
    doInit(fvar1, r);
 
@@ -38,8 +40,10 @@ begin
    blks(2) := new T_FloatGlobal;
    blks(3) := new T_FloatGlobal;
    blks(4) := new T_FloatAdd;
+   blks(5) := new T_FloatDiv;
+   m := 5;
 
-   for i in 1 .. 4 loop
+   for i in 1 .. m loop
       init(blks(i).all, r);
    end loop;
 
@@ -51,9 +55,10 @@ begin
    Boot.bindInput(blks(4).all, 2, Boot.getOutput(blks(4).all, 3), r);
    Boot.bindInput(blks(3).all, 1, Boot.getOutput(blks(4).all, 3), r);
 
+   n := 1_000_000 / m;
    r2 := true;
-   for k in 1 .. 10_010_000 loop
-      for i in 1 .. 4 loop
+   for k in 1 .. n loop -- expand the loop to simulate an execution of N = 1_000_00 blocks
+      for i in 1 .. m loop
          calc(blks(i).all, r);
          r2 := r2 and r;
       end loop;
@@ -63,8 +68,10 @@ begin
    Put_Line(Boolean'Image(r2));
    Put("T_FloadAdd/2 calculated value: ");
    Put_Line(Float'Image(getFloat(blks(3).all, 1)));
+   Put("T_FloadDiv/2 calculated value: ");
+   Put_Line(Float'Image(getFloat(blks(5).all, 3)));
 
-   for i in 1 .. 4 loop
+   for i in 1 .. m loop
       finalize(blks(i).all);
    end loop;
 
