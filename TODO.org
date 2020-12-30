@@ -10,6 +10,7 @@ The AutomationY project is research project to make a replica of the AutomationX
  - [ ] Implement the full set of aX function blocks
 
 ** Notes
+
 *** Model of execution
 
 The VM is using model:
@@ -18,5 +19,7 @@ The VM is using model:
  - The blocks are connected via pointers to the global variables: every connection between output and input is a global variable
  - There is no call subprogram: every call of the subprograms is inlining (converted to the global code)
  -- Might be I change the conecpt of the subprogram call
+
+
 
 
