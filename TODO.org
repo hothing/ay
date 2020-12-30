@@ -1,0 +1,14 @@
+* The AutomtionY 
+
+The AutomationY project is research project to make a replica of the AutomationX V4.x system.
+
+** Milestones
+
+ - [X] Make a proof-of-concept virtual machine, which is using pointer-based bindings between function blocks
+ - [ ] Implement a booting : create the 'programm' from given description
+ - [ ] Implement full virtual machine
+ - [ ] Implement the full set of aX function blocks
+
+** Notes
+
+
