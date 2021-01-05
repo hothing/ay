@@ -1,8 +1,6 @@
-with Ay; use Ay;
 with Ay.Memory; use Ay.Memory;
-with Ay.Block; use Ay.Block;
 
-package Ay.IntBlocks is
+package Ay.Block.IntegerOp is
 
    type T_IntGlobal is new T_Block(1) with null record;
 
@@ -37,4 +35,4 @@ package Ay.IntBlocks is
    procedure doCalc (b : in out T_IntDiv; res : out Boolean);
 
 
-end Ay.IntBlocks;
+end Ay.Block.IntegerOp;

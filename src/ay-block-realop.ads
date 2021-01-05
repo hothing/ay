@@ -1,7 +1,4 @@
-with Ay.Block; use Ay.Block;
-with Ay.Memory; use Ay.Memory;
-
-package Ay.RealBlocks is
+package Ay.Block.RealOp is
 
    type T_FloatGlobal is new T_Block(1) with null record;
 
@@ -14,9 +11,6 @@ package Ay.RealBlocks is
    -- The method 'Calc[ulate]' implements the function (subprogram)
    procedure doCalc (b : in out T_FloatGlobal; res : out Boolean);
 
-   -- The method 'Final' releases the block resources
-   --procedure doFinal (b : in out T_FloatGlobal; res : out Boolean);
-
    -- The method 'Init' initializes the block
    procedure doInit(b : in out T_FloatAdd; res : out Boolean);
 
@@ -27,7 +21,6 @@ package Ay.RealBlocks is
    --procedure doFinal (b : in out T_FloatAdd; res : out Boolean);
 
    type T_FloatSub is new T_FloatAdd with null record;
-
 
    -- The method 'Calc[ulate]' implements the 'substract' function
    procedure doCalc (b : in out T_FloatSub; res : out Boolean);
@@ -40,7 +33,6 @@ package Ay.RealBlocks is
    type T_FloatDiv is new T_FloatAdd with null record;
 
    -- The method 'Calc[ulate]' implements the 'divide' function
-   procedure doCalc (b : in out T_FloatDiv; res : out Boolean);
+   procedure doCalc (b : in out T_FloatDiv; res : out Boolean); 
 
-
-end Ay.RealBlocks;
+end Ay.Block.RealOp;

@@ -1,24 +1,23 @@
-with Interfaces; use Interfaces;
 with Ay.Memory; use Ay.Memory;
 
 package Ay.Block is
-
-   type T_BlockState is (Block_Wait, Block_Run, Block_Failed);
    
-   type T_VariableAccess is (Var_Global, Var_Static, Var_InOut, Var_Input, Var_Output);
+   type T_VariableAccess is (
+                             Var_Global, 
+                             Var_Static, 
+                             Var_InOut, 
+                             Var_Input, 
+                             Var_Output
+                            );
 
    type T_VarAccessArray is array (Positive range <>) of T_VariableAccess;
+
+   type T_BlockState is (Block_Wait, Block_Run, Block_Failed);
    
    type T_Block (Size : Positive) is tagged limited private;
 
    type P_Block is access all T_Block'Class;
-   
-   type T_BlockChain;
-   type P_BlockChain is access all T_BlockChain;
-   type T_BlockChain is record
-      next : P_BlockChain;
-      block : P_Block;
-   end record;
+  
   
    -- The method 'Init' initializes the block 
    procedure init (b : in out T_Block'Class; res : out Boolean);
@@ -29,6 +28,7 @@ package Ay.Block is
    -- The method 'Final' releases the block resources
    procedure finalize(b : in out T_Block'Class);
    
+    
    ---------------------------------------------------------------------------
    package Boot is
       procedure newBool(b : in out T_Block'Class; idx : Positive; vacc : T_VariableAccess);
@@ -84,6 +84,7 @@ package Ay.Block is
    ---------------------------------------------------------------------------
    
    function hasBind(b : in T_Block'Class; idx : Positive) return Boolean;
+   
    
 private
    

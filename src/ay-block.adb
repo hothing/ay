@@ -45,10 +45,16 @@ package body Ay.Block is
            or (b.vacc(idx) = Var_Global)
          then
             if outVar /= null then
-               b.vars(idx) := outVar;
-               b.vbnd(idx) := True;
-               res := true;
+               if b.vars(idx).DataType = outVar.DataType then
+                  b.vars(idx) := outVar;
+                  b.vbnd(idx) := True;
+                  res := true;
+               else
+                  null; -- FIXME? may be raise an exception?
+               end if;
             end if;
+         else
+            null; -- FIXME? may be raise an exception?
          end if;
       end;
 
@@ -60,8 +66,7 @@ package body Ay.Block is
          if (b.vacc(idx) = Var_Output) then
             return b.vars(idx);
          else
-            return null;
-            -- FIXME? may be raise an exception?
+            return null; -- FIXME? may be raise an exception?
          end if;
       end;
 

@@ -32,7 +32,7 @@ project AY is
             for Default_Switches ("ada") use ("-S", "-fverbose-asm", "-gnatp", "-O3", "-funroll-loops", "-gnatn");
 
          when "No" =>
-            for Default_Switches ("ada") use ("-gnata", "-g", "-gnat95", "-gnato", "-fstack-check");
+            for Default_Switches ("ada") use ("-gnata", "-g", "-gnato", "-fstack-check", "-gnat05");
       end case;
    end Compiler;
 

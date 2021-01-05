@@ -1,8 +1,8 @@
 with Ay; use Ay;
 with Ay.Memory; use Ay.Memory;
 with Ay.Block; use Ay.Block;
-with Ay.IntBlocks; use Ay.IntBlocks;
-with Ay.RealBlocks; use Ay.RealBlocks;
+with Ay.Block.IntegerOp; use Ay.Block.IntegerOp;
+with Ay.Block.RealOp; use Ay.Block.RealOp;
 
 with Ada.Text_IO; use Ada.Text_IO;
 
