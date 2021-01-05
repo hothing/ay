@@ -30,6 +30,17 @@ package body Ay.Block is
          b.vbnd(idx) := False;
       end;
 
+      procedure newVar(b : in out T_Block'Class;
+                       idx : Positive;
+                       dt : T_DataType;
+                       vacc : T_VariableAccess)
+      is
+      begin
+         b.vars(idx) := new T_Value(dt);
+         b.vacc(idx) := vacc;
+         b.vbnd(idx) := False;
+      end newVar;
+
 
       -- A function 'bindInput' binds the input of block with output of another block
       -- The mode of the instance variablemust be 'Var_Input' or 'Var_InOut'.

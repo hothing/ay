@@ -19,11 +19,17 @@ package Ay.BlockFactory.Complex is
                              desc : out P_BlockFactory
                             ); 
    
+   procedure addVariable (r : in out T_ComplexBlockFactory;
+                          dt : in T_DataType;
+                          acc : in T_VariableAccess;
+                          res : out Integer);
+   
    procedure addBlock (r : in out T_ComplexBlockFactory;
                        bid : in T_BlockTypeIdentity;
+                       bsid : out Natural;
                        res : out Integer);
    
-   procedure makeBind (r : in out T_ComplexBlockFactory;
+   procedure makeBindPoint (r : in out T_ComplexBlockFactory;
                        id : Positive;  -- bind identity
                        bsid : Natural; -- 'bsid' is number of block in the block chain
                        -- bsid = 0 is a refernece to the user block itself
@@ -61,12 +67,19 @@ private
    package BlockBinds is new Ada.Containers.Indefinite_Ordered_Maps
      (Key_Type => Positive, Element_Type => P_BindSets);   
     
-   
+   type T_VarDescriptor is record
+      dt : T_DataType;
+      ac : T_VariableAccess;
+   end record;
+      
+   package VarDesc is new Ada.Containers.Vectors
+     (Index_Type   => Positive, Element_Type => T_VarDescriptor);
    
    type T_ComplexBlockFactory is new T_BlockFactory with record
       registry : BlockTypes.Map; -- registry of the block types
       binds : BlockBinds.Map; -- registry of the binds
       blocks : BlockInstances.Vector; --list of the instances
+      vars : VarDesc.Vector; -- list of variables
    end record;
 
 end Ay.BlockFactory.Complex;

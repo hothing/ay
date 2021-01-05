@@ -36,6 +36,11 @@ package Ay.Block is
       procedure newFloat(b : in out T_Block'Class; idx : Positive; vacc : T_VariableAccess);
       procedure newLFloat(b : in out T_Block'Class; idx : Positive; vacc : T_VariableAccess); 
       
+      procedure newVar(b : in out T_Block'Class; 
+                       idx : Positive; 
+                       dt : T_DataType; 
+                       vacc : T_VariableAccess);
+      
       -- A function 'bindInput' binds the input of block with output of another block 
       -- The mode of the instance variablemust be 'Var_Input' or 'Var_InOut'. 
       -- Otherwise the function do nothing and return 'False' value
