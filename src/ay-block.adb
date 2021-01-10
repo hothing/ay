@@ -91,9 +91,14 @@ package body Ay.Block is
          res : out Integer)
       is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "bind unimplemented");
-         raise Program_Error with "Unimplemented procedure bind";
+         res := -1;
+         if not btgt.inp.elem(idxt).bound then
+            btgt.inp.elem(idxt).v := bsrc.outp.elem(idxs).v;
+            btgt.inp.elem(idxt).bound := true;
+            res := 0;
+         else
+            null; -- FIXME: may be to raise an exception
+         end if;
       end bind;
 
       -------------
@@ -103,10 +108,7 @@ package body Ay.Block is
       function boundIn (b : in T_Block'Class; idx : Positive) return Boolean
       is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "boundIn unimplemented");
-         raise Program_Error with "Unimplemented function boundIn";
-         return boundIn (b => b, idx => idx);
+         return b.inp.elem(idx).bound;
       end boundIn;
 
       --------------
