@@ -1,8 +1,8 @@
 package Ay.Block.RealOp is
 
-   type T_FloatGlobal is new T_Block(1, 1, 1) with null record;
+   type T_FloatGlobal is new T_Block(0, 1, 0) with null record;
 
-   type T_FloatAdd is new T_Block(2, 1, 1) with null record;
+   type T_FloatAdd is new T_Block(2, 1, 0) with null record;
 
 
    -- The method 'Init' initializes the block

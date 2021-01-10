@@ -6,7 +6,7 @@ package body Ay.Block.IntegerOp is
 
    procedure doInit (b : in out T_IntGlobal; res : out Boolean) is
    begin
-      b.outp(1).v.di := b.outp(1).v.di_init;
+      b.outp.elem(1).v.di := b.outp.elem(1).v.di_init;
       res := True;
    end doInit;
 
@@ -26,9 +26,9 @@ package body Ay.Block.IntegerOp is
    procedure doInit (b : in out T_IntAdd; res : out Boolean) is
    begin
       res := False;
-      b.inp(1).v.di := b.inp(1).v.di_init;
-      b.inp(2).v.di := b.inp(2).v.di_init;
-      b.outp(1).v.di := b.outp(1).v.di_init;
+      b.inp.elem(1).v.di := b.inp.elem(1).v.di_init;
+      b.inp.elem(2).v.di := b.inp.elem(2).v.di_init;
+      b.outp.elem(1).v.di := b.outp.elem(1).v.di_init;
       res := True;
    end doInit;
 
@@ -40,7 +40,7 @@ package body Ay.Block.IntegerOp is
       x : Integer := 0;
    begin
       res := False;
-      b.outp(1).v.di := b.inp(1).v.di + b.inp(2).v.di;
+      b.outp.elem(1).v.di := b.inp.elem(1).v.di + b.inp.elem(2).v.di;
       res := True;
    end doCalc;
 
@@ -52,7 +52,7 @@ package body Ay.Block.IntegerOp is
       x : Integer := 0;
    begin
       res := False;
-      b.outp(1).v.di := b.inp(1).v.di - b.inp(2).v.di;
+      b.outp.elem(1).v.di := b.inp.elem(1).v.di - b.inp.elem(2).v.di;
       res := True;
    end doCalc;
 
@@ -64,7 +64,7 @@ package body Ay.Block.IntegerOp is
       x : Integer := 0;
    begin
       res := False;
-      b.outp(1).v.di := b.inp(1).v.di * b.inp(2).v.di;
+      b.outp.elem(1).v.di := b.inp.elem(1).v.di * b.inp.elem(2).v.di;
       res := True;
    end doCalc;
 
@@ -76,15 +76,15 @@ package body Ay.Block.IntegerOp is
       x, y, z : Integer := 0;
    begin
       res := False;
-      x := b.inp(1).v.di;
-      y := b.inp(2).v.di;
+      x := b.inp.elem(1).v.di;
+      y := b.inp.elem(2).v.di;
       if y /= 0 then
          z := x / y;
          res := True;
       else
          z := Integer'Last;
       end if;
-      b.outp(1).v.di := z;
+      b.outp.elem(1).v.di := z;
    end doCalc;
 
 end Ay.Block.IntegerOp;

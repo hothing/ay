@@ -7,7 +7,7 @@ package body Ay.Block.RealOp is
    procedure doInit (b : in out T_FloatGlobal; res : out Boolean) is
    begin
       res := False;
-      b.outp(1).v.fp := b.outp(1).v.fp_init;
+      b.outp.elem(1).v.fp := b.outp.elem(1).v.fp_init;
       res := True;
    end doInit;
 
@@ -27,9 +27,9 @@ package body Ay.Block.RealOp is
    procedure doInit (b : in out T_FloatAdd; res : out Boolean) is
    begin
       res := False;
-      b.inp(1).v.fp := b.inp(1).v.fp_init;
-      b.inp(2).v.fp := b.inp(2).v.fp_init;
-      b.outp(1).v.fp := b.outp(1).v.fp_init;
+      b.inp.elem(1).v.fp := b.inp.elem(1).v.fp_init;
+      b.inp.elem(2).v.fp := b.inp.elem(2).v.fp_init;
+      b.outp.elem(1).v.fp := b.outp.elem(1).v.fp_init;
       res := True;
    end doInit;
 
@@ -41,7 +41,7 @@ package body Ay.Block.RealOp is
       x : Float := 0.0;
    begin
       res := False;
-      b.outp(1).v.fp := b.inp(1).v.fp + b.inp(2).v.fp;
+      b.outp.elem(1).v.fp := b.inp.elem(1).v.fp + b.inp.elem(2).v.fp;
       res := True;
    end doCalc;
 
@@ -53,7 +53,7 @@ package body Ay.Block.RealOp is
       x : Float := 0.0;
    begin
       res := False;
-      b.outp(1).v.fp := b.inp(1).v.fp - b.inp(2).v.fp;
+      b.outp.elem(1).v.fp := b.inp.elem(1).v.fp - b.inp.elem(2).v.fp;
       res := True;
    end doCalc;
 
@@ -65,7 +65,7 @@ package body Ay.Block.RealOp is
       x : Float := 0.0;
    begin
       res := False;
-      b.outp(1).v.fp := b.inp(1).v.fp * b.inp(2).v.fp;
+      b.outp.elem(1).v.fp := b.inp.elem(1).v.fp * b.inp.elem(2).v.fp;
       res := True;
    end doCalc;
 
@@ -77,15 +77,15 @@ package body Ay.Block.RealOp is
       x, y, z : Float := 0.0;
    begin
       res := False;
-      x := b.inp(1).v.fp;
-      y := b.inp(2).v.fp ;
+      x := b.inp.elem(1).v.fp;
+      y := b.inp.elem(2).v.fp ;
       if abs(y) > Float'Model_Epsilon then
          z := x / y ;
          res := True;
       else
          z := Float'Large;
       end if;
-      b.outp(1).v.fp := z;
+      b.outp.elem(1).v.fp := z;
    end doCalc;
 
 end Ay.Block.RealOp;

@@ -6,9 +6,7 @@ package body Ay.Block is
 
    procedure init (b : in out T_Block'Class; res : out Boolean) is
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "init unimplemented");
-      raise Program_Error with "Unimplemented procedure init";
+      doInit(b, res);
    end init;
 
    ----------
@@ -17,9 +15,7 @@ package body Ay.Block is
 
    procedure calc (b : in out T_Block'Class; res : out Boolean) is
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "calc unimplemented");
-      raise Program_Error with "Unimplemented procedure calc";
+      doCalc(b,res);
    end calc;
 
    --------------
@@ -28,9 +24,7 @@ package body Ay.Block is
 
    procedure finalize (b : in out T_Block'Class) is
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "finalize unimplemented");
-      raise Program_Error with "Unimplemented procedure finalize";
+     doFinal(b);
    end finalize;
 
    ------------
@@ -39,9 +33,25 @@ package body Ay.Block is
 
    procedure doInit (b : in out T_Block; res : out Boolean) is
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "doInit unimplemented");
-      raise Program_Error with "Unimplemented procedure doInit";
+      res := false;
+      for i in 1 .. b.In_Size
+      loop
+         -- initialize : b.inp.elem(i).v
+         null;
+      end loop;
+
+      for i in 1 .. b.Out_Size
+      loop
+         -- initialize : b.outp.elem(i).v
+         null;
+      end loop;
+
+      for i in 1 .. b.Static_Size
+      loop
+         -- initialize : b.stat.elem(i).v
+         null;
+      end loop;
+      res := true;
    end doInit;
 
    ------------
@@ -50,9 +60,7 @@ package body Ay.Block is
 
    procedure doCalc (b : in out T_Block; res : out Boolean) is
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "doCalc unimplemented");
-      raise Program_Error with "Unimplemented procedure doCalc";
+      res := true;
    end doCalc;
 
    -------------
@@ -61,53 +69,9 @@ package body Ay.Block is
 
    procedure doFinal (b : in out T_Block) is
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "doFinal unimplemented");
-      raise Program_Error with "Unimplemented procedure doFinal";
+      null;
    end doFinal;
 
-   -------------
-   -- Factory --
-   -------------
-
-   package body Factory is
-
-      --------------
-      -- newBlock --
-      --------------
-
-      procedure newBlock (bc : in out T_BlockFactory'Class; b : out P_Block)
-      is
-      begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "newBlock unimplemented");
-         raise Program_Error with "Unimplemented procedure newBlock";
-      end newBlock;
-
-      ----------------
-      -- doNewBlock --
-      ----------------
-
-      procedure doNewBlock (bc : in out T_BlockFactory; b : out P_Block) is
-      begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "doNewBlock unimplemented");
-         raise Program_Error with "Unimplemented procedure doNewBlock";
-      end doNewBlock;
-
-      ---------------
-      -- isBuildIn --
-      ---------------
-
-      function isBuildIn (bc : in T_BlockFactory'Class) return Boolean is
-      begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "isBuildIn unimplemented");
-         raise Program_Error with "Unimplemented function isBuildIn";
-         return isBuildIn (bc => bc);
-      end isBuildIn;
-
-   end Factory;
 
    ----------
    -- Boot --
@@ -175,10 +139,7 @@ package body Ay.Block is
 
       function getIn (b : in T_Block'Class; idx : Positive) return Boolean is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "getIn unimplemented");
-         raise Program_Error with "Unimplemented function getIn";
-         return getIn (b => b, idx => idx);
+         return b.inp.elem(idx).v.m;
       end getIn;
 
       -----------
@@ -187,10 +148,7 @@ package body Ay.Block is
 
       function getIn (b : in T_Block'Class; idx : Positive) return Integer is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "getIn unimplemented");
-         raise Program_Error with "Unimplemented function getIn";
-         return getIn (b => b, idx => idx);
+         return b.inp.elem(idx).v.di;
       end getIn;
 
       -----------
@@ -199,10 +157,7 @@ package body Ay.Block is
 
       function getIn (b : in T_Block'Class; idx : Positive) return Float is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "getIn unimplemented");
-         raise Program_Error with "Unimplemented function getIn";
-         return getIn (b => b, idx => idx);
+         return b.inp.elem(idx).v.fp;
       end getIn;
 
       -----------
@@ -215,10 +170,7 @@ package body Ay.Block is
          return Long_Float
       is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "getIn unimplemented");
-         raise Program_Error with "Unimplemented function getIn";
-         return getIn (b => b, idx => idx);
+         return b.inp.elem(idx).v.lfp;
       end getIn;
 
       ------------
@@ -228,9 +180,7 @@ package body Ay.Block is
       procedure setOut (b : in T_Block'Class; idx : Positive; val : Boolean)
       is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "setOut unimplemented");
-         raise Program_Error with "Unimplemented procedure setOut";
+         b.outp.elem(idx).v.m := val;
       end setOut;
 
       ------------
@@ -240,9 +190,7 @@ package body Ay.Block is
       procedure setOut (b : in T_Block'Class; idx : Positive; val : Integer)
       is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "setOut unimplemented");
-         raise Program_Error with "Unimplemented procedure setOut";
+         b.outp.elem(idx).v.di := val;
       end setOut;
 
       ------------
@@ -251,9 +199,7 @@ package body Ay.Block is
 
       procedure setOut (b : in T_Block'Class; idx : Positive; val : Float) is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "setOut unimplemented");
-         raise Program_Error with "Unimplemented procedure setOut";
+         b.outp.elem(idx).v.fp := val;
       end setOut;
 
       ------------
@@ -266,9 +212,7 @@ package body Ay.Block is
          val : Long_Float)
       is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "setOut unimplemented");
-         raise Program_Error with "Unimplemented procedure setOut";
+         b.outp.elem(idx).v.lfp := val;
       end setOut;
 
       ---------
@@ -277,10 +221,7 @@ package body Ay.Block is
 
       function get (b : in T_Block'Class; idx : Positive) return Boolean is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "get unimplemented");
-         raise Program_Error with "Unimplemented function get";
-         return get (b => b, idx => idx);
+         return b.stat.elem(idx).v.m;
       end get;
 
       ---------
@@ -289,10 +230,7 @@ package body Ay.Block is
 
       function get (b : in T_Block'Class; idx : Positive) return Integer is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "get unimplemented");
-         raise Program_Error with "Unimplemented function get";
-         return get (b => b, idx => idx);
+         return b.stat.elem(idx).v.di;
       end get;
 
       ---------
@@ -301,10 +239,7 @@ package body Ay.Block is
 
       function get (b : in T_Block'Class; idx : Positive) return Float is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "get unimplemented");
-         raise Program_Error with "Unimplemented function get";
-         return get (b => b, idx => idx);
+         return b.stat.elem(idx).v.fp;
       end get;
 
       ---------
@@ -313,10 +248,7 @@ package body Ay.Block is
 
       function get (b : in T_Block'Class; idx : Positive) return Long_Float is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "get unimplemented");
-         raise Program_Error with "Unimplemented function get";
-         return get (b => b, idx => idx);
+         return b.stat.elem(idx).v.lfp;
       end get;
 
       ---------
@@ -325,9 +257,7 @@ package body Ay.Block is
 
       procedure set (b : in T_Block'Class; idx : Positive; val : Boolean) is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "set unimplemented");
-         raise Program_Error with "Unimplemented procedure set";
+         b.stat.elem(idx).v.m := val;
       end set;
 
       ---------
@@ -336,9 +266,7 @@ package body Ay.Block is
 
       procedure set (b : in T_Block'Class; idx : Positive; val : Integer) is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "set unimplemented");
-         raise Program_Error with "Unimplemented procedure set";
+         b.stat.elem(idx).v.di := val;
       end set;
 
       ---------
@@ -347,9 +275,7 @@ package body Ay.Block is
 
       procedure set (b : in T_Block'Class; idx : Positive; val : Float) is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "set unimplemented");
-         raise Program_Error with "Unimplemented procedure set";
+         b.stat.elem(idx).v.fp := val;
       end set;
 
       ---------
@@ -359,47 +285,47 @@ package body Ay.Block is
       procedure set (b : in T_Block'Class; idx : Positive; val : Long_Float)
       is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "set unimplemented");
-         raise Program_Error with "Unimplemented procedure set";
+         b.stat.elem(idx).v.lfp := val;
       end set;
 
    end BuildIn;
+
+  ----------------------------------------------------------------------------
+
+   procedure preCalc (b : in out T_SpecialBlock'Class; instance: in out T_Block'Class) is
+   begin
+      pre(b, instance);
+   end preCalc;
+
+
+   procedure postCalc (b : in out T_SpecialBlock'Class; instance: in out T_Block'Class) is
+   begin
+      post(b, instance);
+   end postCalc;
+
+   procedure pre (b : in out T_SpecialBlock; instance: in out T_Block'Class) is
+   begin
+      null;
+   end;
+
+
+
+   procedure post (b : in out T_SpecialBlock; instance: in out T_Block'Class) is
+   begin
+      null;
+   end;
+
+   ----------------------------------------------------------------------------
 
    ------------
    -- doCalc --
    ------------
 
-   procedure doCalc (b : in out T_ComplexBlock; res : out Boolean) is
+   procedure doCalc (b : in out T_CBlock; res : out Boolean) is
       r : Boolean;
    begin
       res := false;
-      -- copy values of input
-      for i in 1 .. b.In_Size
-      loop
-         b.prog.shadow_inp(i).v.all := b.inp(i).v.all;
-      end loop;
-
-      -- copy values of static vars
-      for i in 1 .. b.Static_Size
-      loop
-         b.prog.shadow_stat(i).v.all := b.stat(i).v.all;
-      end loop;
-
-      execute(b.prog.all, r);
-
-      -- after execution do copeing in other direction
-      for i in 1 .. b.Out_Size
-      loop
-         b.outp(i).v.all := b.prog.shadow_out(i).v.all;
-      end loop;
-
-      -- copy values of static vars
-      for i in 1 .. b.Static_Size
-      loop
-         b.stat(i).v.all := b.prog.shadow_stat(i).v.all;
-      end loop;
-
+      execute(b.prog.all, b, r);
       res := r;
    end doCalc;
 
@@ -407,19 +333,81 @@ package body Ay.Block is
    -- doCalc --
    ------------
 
-   procedure execute(ix : in out T_CBlockIterpreter; res : out Boolean) is
-      head, curr : P_BlockChain;
+   procedure execute(ix : in out T_CBlockIterpreter;
+                     instance: in out T_Block'Class;
+                     res : out Boolean) is
+      curr : P_BlockChain;
+      scurr : P_SBlockChain;
+
       r, r2 : Boolean;
    begin
-      head := ix.bchain;
-      curr := head;
-      r2 := (head /= null);
+      -- special block .preCalc execution
+      scurr := ix.schain;
+      while scurr /= null loop
+         preCalc(scurr.block.all, instance);
+         scurr := scurr.next;
+      end loop;
+
+      -- user block execution
+      curr := ix.bchain;
+      r2 := (curr /= null);
       while curr /= null loop
          calc(curr.block.all, r);
          r2 := r2 and r;
          curr := curr.next;
       end loop;
+
+      -- special block .postCalc execution
+      scurr := ix.schain;
+      while scurr /= null loop
+         postCalc(scurr.block.all, instance);
+         scurr := scurr.next;
+      end loop;
+      -- end
       res := r2;
    end execute;
+
+   -------------
+   -- Factory --
+   -------------
+
+   package body Factory is
+
+      --------------
+      -- newBlock --
+      --------------
+
+      procedure newBlock (bc : in out T_BlockFactory'Class; b : out P_Block)
+      is
+      begin
+         --  Generated stub: replace with real body!
+         pragma Compile_Time_Warning (Standard.True, "newBlock unimplemented");
+         raise Program_Error with "Unimplemented procedure newBlock";
+      end newBlock;
+
+      ----------------
+      -- doNewBlock --
+      ----------------
+
+      procedure doNewBlock (bc : in out T_BlockFactory; b : out P_Block) is
+      begin
+         --  Generated stub: replace with real body!
+         pragma Compile_Time_Warning (Standard.True, "doNewBlock unimplemented");
+         raise Program_Error with "Unimplemented procedure doNewBlock";
+      end doNewBlock;
+
+      ---------------
+      -- isBuildIn --
+      ---------------
+
+      function isBuildIn (bc : in T_BlockFactory'Class) return Boolean is
+      begin
+         --  Generated stub: replace with real body!
+         pragma Compile_Time_Warning (Standard.True, "isBuildIn unimplemented");
+         raise Program_Error with "Unimplemented function isBuildIn";
+         return isBuildIn (bc => bc);
+      end isBuildIn;
+
+   end Factory;
 
 end Ay.Block;
