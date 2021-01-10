@@ -292,25 +292,37 @@ package body Ay.Block is
 
   ----------------------------------------------------------------------------
 
-   procedure preCalc (b : in out T_SpecialBlock'Class; instance: in out T_Block'Class) is
+   procedure preCalc (b : in out T_SpecialBlock'Class;
+                      isec: in out T_XBlockSection;
+                      osec: in out T_XBlockSection;
+                      ssec: in out T_XBlockSection ) is
    begin
-      pre(b, instance);
+      pre(b, isec, osec, ssec);
    end preCalc;
 
 
-   procedure postCalc (b : in out T_SpecialBlock'Class; instance: in out T_Block'Class) is
+   procedure postCalc (b : in out T_SpecialBlock'Class;
+                       isec: in out T_XBlockSection;
+                       osec: in out T_XBlockSection;
+                       ssec: in out T_XBlockSection) is
    begin
-      post(b, instance);
+      post(b, isec, osec, ssec);
    end postCalc;
 
-   procedure pre (b : in out T_SpecialBlock; instance: in out T_Block'Class) is
+   procedure pre (b : in out T_SpecialBlock;
+                  isec: in out T_XBlockSection;
+                  osec: in out T_XBlockSection;
+                  ssec: in out T_XBlockSection) is
    begin
       null;
    end;
 
 
 
-   procedure post (b : in out T_SpecialBlock; instance: in out T_Block'Class) is
+   procedure post (b : in out T_SpecialBlock;
+                   isec: in out T_XBlockSection;
+                   osec: in out T_XBlockSection;
+                   ssec: in out T_XBlockSection) is
    begin
       null;
    end;
@@ -322,34 +334,20 @@ package body Ay.Block is
    ------------
 
    procedure doCalc (b : in out T_CBlock; res : out Boolean) is
-      r : Boolean;
-   begin
-      res := false;
-      execute(b.prog.all, b, r);
-      res := r;
-   end doCalc;
-
-   ------------
-   -- doCalc --
-   ------------
-
-   procedure execute(ix : in out T_CBlockIterpreter;
-                     instance: in out T_Block'Class;
-                     res : out Boolean) is
       curr : P_BlockChain;
       scurr : P_SBlockChain;
-
       r, r2 : Boolean;
    begin
+      res := false;
       -- special block .preCalc execution
-      scurr := ix.schain;
+      scurr := b.schain;
       while scurr /= null loop
-         preCalc(scurr.block.all, instance);
+         preCalc(scurr.block.all, b.inp, b.outp, b.stat);
          scurr := scurr.next;
       end loop;
 
       -- user block execution
-      curr := ix.bchain;
+      curr := b.bchain;
       r2 := (curr /= null);
       while curr /= null loop
          calc(curr.block.all, r);
@@ -358,14 +356,14 @@ package body Ay.Block is
       end loop;
 
       -- special block .postCalc execution
-      scurr := ix.schain;
+      scurr := b.schain;
       while scurr /= null loop
-         postCalc(scurr.block.all, instance);
+         postCalc(scurr.block.all, b.inp, b.outp, b.stat);
          scurr := scurr.next;
       end loop;
       -- end
       res := r2;
-   end execute;
+   end doCalc;
 
    -------------
    -- Factory --

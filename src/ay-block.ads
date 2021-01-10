@@ -32,30 +32,38 @@ package Ay.Block is
    procedure doFinal (b : in out T_Block);
       
    ---------------------------------------------------------------------------
-  
-   
    
    type T_CBlock is new T_Block with private;
    
-   type T_CBlockIterpreter is tagged private;
-      
-   type P_CBlockIterpreter is access T_CBlockIterpreter;
-   
-   procedure execute(ix : in out T_CBlockIterpreter; 
-                     instance: in out T_Block'Class; 
-                     res : out Boolean);
-   
    -- this kind of block is using by interpreter internally
+   
+   type T_XBlockSection(Size : Natural) is private;
    
    type T_SpecialBlock is new T_Block with private; 
    
-   procedure preCalc (b : in out T_SpecialBlock'Class; instance: in out T_Block'Class); 
+   procedure preCalc (b : in out T_SpecialBlock'Class; 
+                      isec: in out T_XBlockSection;
+                      osec: in out T_XBlockSection;
+                      ssec: in out T_XBlockSection
+                     );
    
-   procedure postCalc (b : in out T_SpecialBlock'Class; instance: in out T_Block'Class); 
+   procedure postCalc (b : in out T_SpecialBlock'Class; 
+                       isec: in out T_XBlockSection;
+                       osec: in out T_XBlockSection;
+                       ssec: in out T_XBlockSection
+                      );
    
-   procedure pre (b : in out T_SpecialBlock; instance: in out T_Block'Class); 
+   procedure pre (b : in out T_SpecialBlock; 
+                  isec: in out T_XBlockSection;
+                  osec: in out T_XBlockSection;
+                  ssec: in out T_XBlockSection
+                 );
    
-   procedure post (b : in out T_SpecialBlock; instance: in out T_Block'Class);
+   procedure post (b : in out T_SpecialBlock; 
+                   isec: in out T_XBlockSection;
+                   osec: in out T_XBlockSection;
+                   ssec: in out T_XBlockSection
+                  );
    
    ---------------------------------------------------------------------------
    
@@ -156,13 +164,8 @@ private
       record
          inp : T_XBlockSection(In_Size);
          outp : T_XBlockSection(Out_Size);
-         stat : T_XBlockSection(Static_Size);
+         stat : T_XBlockSection(Static_Size);         
       end record; 
-
-   type T_CBlock is new T_Block with record
-      prog : P_CBlockIterpreter; -- user block interpreter
-   end record;
-   procedure doCalc (b : in out T_CBlock; res : out Boolean); 
    
    type T_BlockChain;
    type P_BlockChain is access all T_BlockChain;
@@ -171,7 +174,8 @@ private
       block : P_Block;
    end record;
    
-   type P_SpecialBlock is access all T_SpecialBlock;
+   type T_SpecialBlock is new T_Block with null record; 
+   type P_SpecialBlock is access all T_SpecialBlock;   
    
    type T_SBlockChain;
    type P_SBlockChain is access all T_SBlockChain;
@@ -179,13 +183,12 @@ private
       next : P_SBlockChain;
       block : P_SpecialBlock;
    end record;
-   
-   type T_CBlockIterpreter is 
-     tagged record
+      
+   type T_CBlock is new T_Block with record
       schain : P_SBlockChain; -- special block chain
       bchain : P_BlockChain; -- user block execution chain
-   end record;   
+   end record;
+   procedure doCalc (b : in out T_CBlock; res : out Boolean);
    
-   type T_SpecialBlock is new T_Block with null record; 
    
 end Ay.Block;
