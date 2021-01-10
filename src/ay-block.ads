@@ -32,7 +32,7 @@ package Ay.Block is
    procedure doFinal (b : in out T_Block);
       
    ---------------------------------------------------------------------------
-   
+  
    type T_CBlock is new T_Block with private;
    
    -- this kind of block is using by interpreter internally
@@ -189,6 +189,12 @@ private
       bchain : P_BlockChain; -- user block execution chain
    end record;
    procedure doCalc (b : in out T_CBlock; res : out Boolean);
+
    
+   type T_CBlockIterpreter is 
+     tagged record
+      schain : P_BlockChain; -- special block chain
+      bchain : P_BlockChain; -- user block execution chain
+   end record;
    
 end Ay.Block;

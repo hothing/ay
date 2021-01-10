@@ -329,10 +329,6 @@ package body Ay.Block is
 
    ----------------------------------------------------------------------------
 
-   ------------
-   -- doCalc --
-   ------------
-
    procedure doCalc (b : in out T_CBlock; res : out Boolean) is
       curr : P_BlockChain;
       scurr : P_SBlockChain;

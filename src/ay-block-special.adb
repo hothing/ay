@@ -4,6 +4,7 @@ package body Ay.Block.Special is
    -- preCalc --
    -------------
 
+
    procedure pre (b : in out T_GetInput;
                       isec: in out T_XBlockSection;
                       osec: in out T_XBlockSection;
