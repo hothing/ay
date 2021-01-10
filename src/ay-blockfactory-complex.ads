@@ -15,14 +15,39 @@ package Ay.BlockFactory.Complex is
                                 res : out Integer);
    
    procedure lookupBlockType (r : in out T_ComplexBlockFactory; 
-                             bid : in T_BlockTypeIdentity;
-                             desc : out P_BlockFactory
-                            ); 
+                              bid : in T_BlockTypeIdentity;
+                              desc : out P_BlockFactory
+                             ); 
    
-   procedure addVariable (r : in out T_ComplexBlockFactory;
+   procedure setInputSize(bc : in out T_BlockFactory'Class; 
+                          asize : in Positive);
+
+   procedure setOutputSize(bc : in out T_BlockFactory'Class; 
+                           asize : in Positive);
+
+   procedure setStaticSize(bc : in out T_BlockFactory'Class; 
+                           asize : in Positive);
+
+   procedure declareInput(
+                          bc : in out T_BlockFactory'Class; 
+                          idx : in Positive;
                           dt : in T_DataType;
-                          acc : in T_VariableAccess;
-                          res : out Integer);
+                          res : out Integer
+                         );
+
+   procedure declareOutput(
+                           bc : in out T_BlockFactory'Class; 
+                           idx : in Positive;
+                           dt : in T_DataType;
+                           res : out Integer
+                          );
+      
+   procedure declareStatic(
+                           bc : in out T_BlockFactory'Class; 
+                           idx : in Positive;
+                           dt : in T_DataType;
+                           res : out Integer
+                          );
    
    procedure addBlock (r : in out T_ComplexBlockFactory;
                        bid : in T_BlockTypeIdentity;
@@ -30,11 +55,11 @@ package Ay.BlockFactory.Complex is
                        res : out Integer);
    
    procedure makeBindPoint (r : in out T_ComplexBlockFactory;
-                       id : Positive;  -- bind identity
-                       bsid : Natural; -- 'bsid' is number of block in the block chain
-                       -- bsid = 0 is a refernece to the user block itself
-                       pin : Positive; -- identity of block pin (or block variable)
-                       res : out Integer);
+                            id : Positive;  -- bind identity
+                            bsid : Natural; -- 'bsid' is number of block in the block chain
+                            -- bsid = 0 is a refernece to the user block itself
+                            pin : Positive; -- identity of block pin (or block variable)
+                            res : out Integer);
    
    procedure transpile (r : in out T_ComplexBlockFactory;
                         res : out Integer);
@@ -51,7 +76,7 @@ private
    
    type T_BindPoint is record
       bsid : Natural; -- 'bsid' is number of block in the block chain
-                      -- 'bsid' = 0 is a refernece to the user block itself
+      -- 'bsid' = 0 is a refernece to the user block itself
       pin : Positive; -- identity of block pin (or block variable)
    end record;
 

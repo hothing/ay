@@ -7,7 +7,7 @@ package body Ay.Block.RealOp is
    procedure doInit (b : in out T_FloatGlobal; res : out Boolean) is
    begin
       res := False;
-      Ay.Block.Boot.NewFloat(b, 1, Var_Global);
+      b.outp(1).v.fp := b.outp(1).v.fp_init;
       res := True;
    end doInit;
 
@@ -27,9 +27,9 @@ package body Ay.Block.RealOp is
    procedure doInit (b : in out T_FloatAdd; res : out Boolean) is
    begin
       res := False;
-      Ay.Block.Boot.NewFloat(b, 1, Var_Input);
-      Ay.Block.Boot.NewFloat(b, 2, Var_Input);
-      Ay.Block.Boot.NewFloat(b, 3, Var_Output);
+      b.inp(1).v.fp := b.inp(1).v.fp_init;
+      b.inp(2).v.fp := b.inp(2).v.fp_init;
+      b.outp(1).v.fp := b.outp(1).v.fp_init;
       res := True;
    end doInit;
 
@@ -41,8 +41,7 @@ package body Ay.Block.RealOp is
       x : Float := 0.0;
    begin
       res := False;
-      x := GetFloat(b, 1) + GetFloat(b, 2);
-      SetFloat(b, 3, x);
+      b.outp(1).v.fp := b.inp(1).v.fp + b.inp(2).v.fp;
       res := True;
    end doCalc;
 
@@ -54,8 +53,7 @@ package body Ay.Block.RealOp is
       x : Float := 0.0;
    begin
       res := False;
-      x := GetFloat(b, 1) - GetFloat(b, 2);
-      SetFloat(b, 3, x);
+      b.outp(1).v.fp := b.inp(1).v.fp - b.inp(2).v.fp;
       res := True;
    end doCalc;
 
@@ -67,8 +65,7 @@ package body Ay.Block.RealOp is
       x : Float := 0.0;
    begin
       res := False;
-      x := GetFloat(b, 1) * GetFloat(b, 2);
-      SetFloat(b, 3, x);
+      b.outp(1).v.fp := b.inp(1).v.fp * b.inp(2).v.fp;
       res := True;
    end doCalc;
 
@@ -80,15 +77,15 @@ package body Ay.Block.RealOp is
       x, y, z : Float := 0.0;
    begin
       res := False;
-      x := GetFloat(b, 1);
-      y := GetFloat(b, 2);
+      x := b.inp(1).v.fp;
+      y := b.inp(2).v.fp ;
       if abs(y) > Float'Model_Epsilon then
          z := x / y ;
          res := True;
       else
          z := Float'Large;
       end if;
-      SetFloat(b, 3, z);
+      b.outp(1).v.fp := z;
    end doCalc;
 
 end Ay.Block.RealOp;

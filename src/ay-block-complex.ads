@@ -24,6 +24,11 @@ package Ay.Block.Complex is
 private
    
    type T_ComplexBlock is new T_Block with record
+      -- the shadow I/O is using to statically bind the block in the chain
+      shadow_inp  : T_VarArea (1 .. In_Size);
+      shadow_out : T_VarArea (1 .. Out_Size);
+      shadow_stat : T_VarArea (1 .. Static_Size);
+      -- the user program as block chain
       bchain : P_BlockChain; -- user block execution chain
    end record;
 

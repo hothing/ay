@@ -6,8 +6,7 @@ package body Ay.Block.IntegerOp is
 
    procedure doInit (b : in out T_IntGlobal; res : out Boolean) is
    begin
-      res := False;
-      Ay.Block.Boot.NewInt(b, 1, Var_Static);
+      b.outp(1).v.di := b.outp(1).v.di_init;
       res := True;
    end doInit;
 
@@ -27,9 +26,9 @@ package body Ay.Block.IntegerOp is
    procedure doInit (b : in out T_IntAdd; res : out Boolean) is
    begin
       res := False;
-      Boot.NewInt(b, 1, Var_Input);
-      Boot.NewInt(b, 2, Var_Input);
-      Boot.NewInt(b, 3, Var_Output);
+      b.inp(1).v.di := b.inp(1).v.di_init;
+      b.inp(2).v.di := b.inp(2).v.di_init;
+      b.outp(1).v.di := b.outp(1).v.di_init;
       res := True;
    end doInit;
 
@@ -41,8 +40,7 @@ package body Ay.Block.IntegerOp is
       x : Integer := 0;
    begin
       res := False;
-      x := GetInt(b, 1) + GetInt(b, 2);
-      SetInt(b, 3, x);
+      b.outp(1).v.di := b.inp(1).v.di + b.inp(2).v.di;
       res := True;
    end doCalc;
 
@@ -54,8 +52,7 @@ package body Ay.Block.IntegerOp is
       x : Integer := 0;
    begin
       res := False;
-      x := GetInt(b, 1) - GetInt(b, 2);
-      SetInt(b, 3, x);
+      b.outp(1).v.di := b.inp(1).v.di - b.inp(2).v.di;
       res := True;
    end doCalc;
 
@@ -67,8 +64,7 @@ package body Ay.Block.IntegerOp is
       x : Integer := 0;
    begin
       res := False;
-      x := GetInt(b, 1) * GetInt(b, 2);
-      SetInt(b, 3, x);
+      b.outp(1).v.di := b.inp(1).v.di * b.inp(2).v.di;
       res := True;
    end doCalc;
 
@@ -80,15 +76,15 @@ package body Ay.Block.IntegerOp is
       x, y, z : Integer := 0;
    begin
       res := False;
-      x := GetInt(b, 1);
-      y := GetInt(b, 2);
+      x := b.inp(1).v.di;
+      y := b.inp(2).v.di;
       if y /= 0 then
          z := x / y;
          res := True;
       else
          z := Integer'Last;
       end if;
-      SetInt(b, 3, z);
+      b.outp(1).v.di := z;
    end doCalc;
 
 end Ay.Block.IntegerOp;
