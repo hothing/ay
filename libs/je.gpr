@@ -1,0 +1,11 @@
+library project Je is
+
+   for Library_Name use "je";  --  will create "libje.a" on Unix
+   for Object_Dir   use "obj";
+   for Library_Dir  use "lib";
+   for Library_Kind use "static";
+
+   for Source_Dirs use ("je");
+   
+end Je;
+

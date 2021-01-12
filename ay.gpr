@@ -1,61 +1,32 @@
+with "libs/je.gpr";
+
 project AY is
 
    for Languages use ("Ada");
    for Source_Dirs use ("src");
    for Object_Dir use "obj/";
    for Main use ("main.adb");
-   type Asmgen_Type is
-      ("Yes", "No");
-   Asmgen : Asmgen_Type := external ("AsmGen", "No");
+   --type Asmgen_Type is ("Yes", "No");
+   --Asmgen : Asmgen_Type := external ("AsmGen", "No");
 
    package Ide is
       for Documentation_Dir use "doc/";
-
-      case Asmgen is
-
-         when "Yes" =>
-            for Vcs_Kind use "Git";
-
-         when "No" =>
-            for Vcs_Kind use "git";
-      end case;
+      for Vcs_Kind use "Git";
    end Ide;
 
    package Builder is
    end Builder;
 
    package Compiler is
-
-      case Asmgen is
-
-         when "Yes" =>
-            for Default_Switches ("ada") use ("-S", "-fverbose-asm", "-gnatp", "-O3", "-funroll-loops", "-gnatn");
-
-         when "No" =>
-            for Default_Switches ("ada") use ("-gnata", "-g", "-gnato", "-fstack-check", "-gnat05");
-      end case;
+      for Default_Switches ("ada") use ("-gnata", "-g", "-gnato", "-fstack-check", "-gnat05", "-gnatf");
    end Compiler;
 
    package Linker is
-
-      case Asmgen is
-
-         when "Yes" =>
-
-         when "No" =>
-            for Default_Switches ("ada") use ("-fprofile-generate", "-g", "-pg");
-      end case;
+      for Default_Switches ("ada") use ("-fprofile-generate", "-g", "-pg");
    end Linker;
 
    package Binder is
-
-      case Asmgen is
-
-         when "Yes" =>
-
-         when "No" =>
-            for Switches ("ada") use ("-E");
-      end case;
+      for Switches ("ada") use ("-E");
    end Binder;
 
 end AY;
