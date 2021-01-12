@@ -72,4 +72,28 @@ package body Ay.Memory is
       v.all.lfp := val;
    end set;
 
+   function clone(v : in P_Value) return P_Value is
+      nv : P_Value;
+   begin
+      case v.DataType is
+         when DT_Bool =>
+            nv := new T_Value(DT_Bool);
+            nv.m := v.m;
+            nv.m_init := v.m_init;
+         when DT_Int =>
+            nv := new T_Value(DT_Int);
+            nv.di := v.di;
+            nv.di_init := v.di_init;
+         when DT_Float=>
+            nv := new T_Value(DT_Float);
+            nv.fp := v.fp;
+            nv.fp_init := v.fp_init;
+         when DT_LongFloat =>
+            nv := new T_Value(DT_LongFloat);
+            nv.lfp := v.lfp;
+            nv.lfp_init := v.lfp_init;
+      end case;
+      return nv;
+   end clone;
+
 end Ay.Memory;

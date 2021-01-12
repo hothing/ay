@@ -42,4 +42,8 @@ package Ay.Memory is
 
    procedure set(v : in out P_Value; val : Long_Float);
 
+   ----
+
+   function clone(v : in P_Value) return P_Value;
+
 end Ay.Memory;

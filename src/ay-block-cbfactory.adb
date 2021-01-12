@@ -5,10 +5,38 @@ package body Ay.Block.CBFactory is
    ----------------
 
    procedure doNewBlock (bc : in out T_CBlockFactory; b : out P_Block) is
+      newCBlock : P_CBlock;
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "doNewBlock unimplemented");
-      raise Program_Error with "Unimplemented procedure doNewBlock";
+      newCBlock := new T_CBlock(bc.prototype.In_Size,
+                                bc.prototype.Out_Size,
+                                bc.prototype.Static_Size);
+      newCBlock.schain := bc.prototype.schain;
+      newCBlock.bchain := bc.prototype.bchain;
+
+      -- clone the inputs
+
+      for i in 1 .. bc.prototype.In_Size
+      loop
+         newCBlock.inp.elem(i).v := clone(bc.prototype.inp.elem(i).v);
+      end loop;
+
+      -- clone the outputs
+
+      for i in 1 .. bc.prototype.Out_Size
+      loop
+         newCBlock.outp.elem(i).v := clone(bc.prototype.outp.elem(i).v);
+      end loop;
+
+      -- clone the statics
+
+      for i in 1 .. bc.prototype.Static_Size
+      loop
+         newCBlock.stat.elem(i).v := clone(bc.prototype.stat.elem(i).v);
+      end loop;
+
+      -- done
+
+      b := P_Block(newCBlock);
    end doNewBlock;
 
    ----------
@@ -17,9 +45,7 @@ package body Ay.Block.CBFactory is
 
    procedure init (bc : in out T_CBlockFactory; b : in P_CBlock) is
    begin
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "init unimplemented");
-      raise Program_Error with "Unimplemented procedure init";
+      bc.prototype := b;
    end init;
 
    ----------
