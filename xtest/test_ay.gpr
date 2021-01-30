@@ -1,0 +1,15 @@
+with "aunit";
+with "gnattest_common.gpr";
+with "../ay.gpr";
+project test_ay is
+
+   for Source_Dirs use
+     ("../obj/gnattest/tests",
+      "common");
+
+   for Languages use Gnattest_Common'Languages & ("Ada");
+   package Compiler renames Gnattest_Common.Compiler;
+
+   package Ide renames ay.Ide;
+
+end test_ay;

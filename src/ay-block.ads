@@ -135,7 +135,7 @@ package Ay.Block is
       
       type T_BlockFactory is abstract tagged null record;
 
-      type P_BlockFactory is access T_BlockFactory;
+      type P_BlockFactory is access T_BlockFactory'Class;
 
       procedure newBlock(bc : in out T_BlockFactory'Class; b : out P_Block);
       procedure doNewBlock(bc : in out T_BlockFactory; b : out P_Block);

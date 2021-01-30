@@ -1,0 +1,498 @@
+<tests_mapping mode="monolith">
+   <unit source_file="ay-block-cbfactory.ads">
+      <test_unit target_file="ay-block-cbfactory-t_cblockfactory_test_data-t_cblockfactory_tests.ads">
+         <setup file="ay-block-cbfactory-t_cblockfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-cbfactory-t_cblockfactory_test_data.adb" name="Tear_Down" line="15"  column="4"/>
+         <tested name="doNewBlock" line="12" column="14">
+            <test file="ay-block-cbfactory-t_cblockfactory_test_data-t_cblockfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="init" line="14" column="14">
+            <test file="ay-block-cbfactory-t_cblockfactory_test_data-t_cblockfactory_tests.adb" line="60" column="1" name="Test_init_c1c225" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-cbfactory-test_data-tests.ads">
+         <setup file="ay-block-cbfactory-test_data.adb" name="Set_Up" line="8"  column="4"/>
+         <teardown file="ay-block-cbfactory-test_data.adb" name="Tear_Down" line="14"  column="4"/>
+         <tested name="init" line="20" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="39" column="1" name="Test_init_a82978" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="beginVars" line="24" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="60" column="1" name="Test_beginVars_28ffad" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="addInput" line="26" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="81" column="1" name="Test_addInput_589be3" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="addOutput" line="28" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="102" column="1" name="Test_addOutput_10ceda" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="addStatic" line="30" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="123" column="1" name="Test_addStatic_4ba12f" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="endVars" line="32" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="144" column="1" name="Test_endVars_743631" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="beginCode" line="36" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="165" column="1" name="Test_beginCode_28ae9a" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="addBlock" line="38" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="186" column="1" name="Test_addBlock_7421f3" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="connectIn" line="43" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="207" column="1" name="Test_connectIn_a8afd2" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="connectOut" line="48" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="228" column="1" name="Test_connectOut_424bf2" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="endCode" line="53" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="249" column="1" name="Test_endCode_b2fc46" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="validate" line="57" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="270" column="1" name="Test_validate_b3e312" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="finish" line="59" column="14">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="291" column="1" name="Test_finish_c86ddd" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="getInputConnId" line="63" column="13">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="312" column="1" name="Test_getInputConnId_6f291f" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="getOutputConnId" line="65" column="13">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="333" column="1" name="Test_getOutputConnId_4c4ee7" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="getStaticConnId" line="67" column="13">
+            <test file="ay-block-cbfactory-test_data-tests.adb" line="354" column="1" name="Test_getStaticConnId_a33dd6" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="ay-block-integerop-factory.ads">
+      <test_unit target_file="ay-block-integerop-factory-t_intaddfactory_test_data-t_intaddfactory_tests.ads">
+         <setup file="ay-block-integerop-factory-t_intaddfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-integerop-factory-t_intaddfactory_test_data.adb" name="Tear_Down" line="15"  column="4"/>
+         <tested name="doNewBlock" line="5" column="14">
+            <test file="ay-block-integerop-factory-t_intaddfactory_test_data-t_intaddfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-integerop-factory-t_intsubfactory_test_data-t_intsubfactory_tests.ads">
+         <setup file="ay-block-integerop-factory-t_intsubfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-integerop-factory-t_intsubfactory_test_data.adb" name="Tear_Down" line="15"  column="4"/>
+         <tested name="doNewBlock" line="9" column="14">
+            <test file="ay-block-integerop-factory-t_intsubfactory_test_data-t_intsubfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-integerop-factory-t_intmultfactory_test_data-t_intmultfactory_tests.ads">
+         <setup file="ay-block-integerop-factory-t_intmultfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-integerop-factory-t_intmultfactory_test_data.adb" name="Tear_Down" line="15"  column="4"/>
+         <tested name="doNewBlock" line="13" column="14">
+            <test file="ay-block-integerop-factory-t_intmultfactory_test_data-t_intmultfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-integerop-factory-t_intdivfactory_test_data-t_intdivfactory_tests.ads">
+         <setup file="ay-block-integerop-factory-t_intdivfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-integerop-factory-t_intdivfactory_test_data.adb" name="Tear_Down" line="15"  column="4"/>
+         <tested name="doNewBlock" line="17" column="14">
+            <test file="ay-block-integerop-factory-t_intdivfactory_test_data-t_intdivfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="ay-block-integerop.ads">
+      <test_unit target_file="ay-block-integerop-t_intglobal_test_data-t_intglobal_tests.ads">
+         <setup file="ay-block-integerop-t_intglobal_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-integerop-t_intglobal_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doInit" line="8" column="14">
+            <test file="ay-block-integerop-t_intglobal_test_data-t_intglobal_tests.adb" line="39" column="1" name="Test_doInit_9a6f7e" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <tested name="doCalc" line="11" column="14">
+            <test file="ay-block-integerop-t_intglobal_test_data-t_intglobal_tests.adb" line="60" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-integerop-t_intadd_test_data-t_intadd_tests.ads">
+         <setup file="ay-block-integerop-t_intadd_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-integerop-t_intadd_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doInit" line="16" column="14">
+            <test file="ay-block-integerop-t_intadd_test_data-t_intadd_tests.adb" line="39" column="1" name="Test_doInit_9a6f7e" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <tested name="doCalc" line="19" column="14">
+            <test file="ay-block-integerop-t_intadd_test_data-t_intadd_tests.adb" line="60" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-integerop-t_intsub_test_data-t_intsub_tests.ads">
+         <setup file="ay-block-integerop-t_intsub_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-integerop-t_intsub_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doCalc" line="24" column="14">
+            <test file="ay-block-integerop-t_intsub_test_data-t_intsub_tests.adb" line="39" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-integerop-t_intmult_test_data-t_intmult_tests.ads">
+         <setup file="ay-block-integerop-t_intmult_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-integerop-t_intmult_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doCalc" line="29" column="14">
+            <test file="ay-block-integerop-t_intmult_test_data-t_intmult_tests.adb" line="39" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-integerop-t_intdiv_test_data-t_intdiv_tests.ads">
+         <setup file="ay-block-integerop-t_intdiv_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-integerop-t_intdiv_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doCalc" line="34" column="14">
+            <test file="ay-block-integerop-t_intdiv_test_data-t_intdiv_tests.adb" line="39" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="ay-block-realop-factory.ads">
+      <test_unit target_file="ay-block-realop-factory-t_floataddfactory_test_data-t_floataddfactory_tests.ads">
+         <setup file="ay-block-realop-factory-t_floataddfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-realop-factory-t_floataddfactory_test_data.adb" name="Tear_Down" line="15"  column="4"/>
+         <tested name="doNewBlock" line="5" column="14">
+            <test file="ay-block-realop-factory-t_floataddfactory_test_data-t_floataddfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-realop-factory-t_floatsubfactory_test_data-t_floatsubfactory_tests.ads">
+         <setup file="ay-block-realop-factory-t_floatsubfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-realop-factory-t_floatsubfactory_test_data.adb" name="Tear_Down" line="15"  column="4"/>
+         <tested name="doNewBlock" line="9" column="14">
+            <test file="ay-block-realop-factory-t_floatsubfactory_test_data-t_floatsubfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-realop-factory-t_floatmultfactory_test_data-t_floatmultfactory_tests.ads">
+         <setup file="ay-block-realop-factory-t_floatmultfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-realop-factory-t_floatmultfactory_test_data.adb" name="Tear_Down" line="15"  column="4"/>
+         <tested name="doNewBlock" line="13" column="14">
+            <test file="ay-block-realop-factory-t_floatmultfactory_test_data-t_floatmultfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-realop-factory-t_floatdivfactory_test_data-t_floatdivfactory_tests.ads">
+         <setup file="ay-block-realop-factory-t_floatdivfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-realop-factory-t_floatdivfactory_test_data.adb" name="Tear_Down" line="15"  column="4"/>
+         <tested name="doNewBlock" line="17" column="14">
+            <test file="ay-block-realop-factory-t_floatdivfactory_test_data-t_floatdivfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="ay-block-realop.ads">
+      <test_unit target_file="ay-block-realop-t_floatglobal_test_data-t_floatglobal_tests.ads">
+         <setup file="ay-block-realop-t_floatglobal_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-realop-t_floatglobal_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doInit" line="9" column="14">
+            <test file="ay-block-realop-t_floatglobal_test_data-t_floatglobal_tests.adb" line="39" column="1" name="Test_doInit_9a6f7e" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <tested name="doCalc" line="12" column="14">
+            <test file="ay-block-realop-t_floatglobal_test_data-t_floatglobal_tests.adb" line="60" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-realop-t_floatadd_test_data-t_floatadd_tests.ads">
+         <setup file="ay-block-realop-t_floatadd_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-realop-t_floatadd_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doInit" line="15" column="14">
+            <test file="ay-block-realop-t_floatadd_test_data-t_floatadd_tests.adb" line="39" column="1" name="Test_doInit_9a6f7e" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <tested name="doCalc" line="18" column="14">
+            <test file="ay-block-realop-t_floatadd_test_data-t_floatadd_tests.adb" line="60" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-realop-t_floatsub_test_data-t_floatsub_tests.ads">
+         <setup file="ay-block-realop-t_floatsub_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-realop-t_floatsub_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doCalc" line="26" column="14">
+            <test file="ay-block-realop-t_floatsub_test_data-t_floatsub_tests.adb" line="39" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-realop-t_floatmult_test_data-t_floatmult_tests.ads">
+         <setup file="ay-block-realop-t_floatmult_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-realop-t_floatmult_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doCalc" line="31" column="14">
+            <test file="ay-block-realop-t_floatmult_test_data-t_floatmult_tests.adb" line="39" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-realop-t_floatdiv_test_data-t_floatdiv_tests.ads">
+         <setup file="ay-block-realop-t_floatdiv_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-realop-t_floatdiv_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doCalc" line="36" column="14">
+            <test file="ay-block-realop-t_floatdiv_test_data-t_floatdiv_tests.adb" line="39" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="ay-block-registry.ads">
+      <test_unit target_file="ay-block-registry-test_data-tests.ads">
+         <setup file="ay-block-registry-test_data.adb" name="Set_Up" line="8"  column="4"/>
+         <teardown file="ay-block-registry-test_data.adb" name="Tear_Down" line="14"  column="4"/>
+         <tested name="reset" line="8" column="14">
+            <test file="ay-block-registry-test_data-tests.adb" line="39" column="1" name="Test_reset_70ef34" timestamp="modified"/>
+         </tested>
+         <tested name="newRecord" line="10" column="14">
+            <test file="ay-block-registry-test_data-tests.adb" line="70" column="1" name="Test_newRecord_f8cdcc" timestamp="modified"/>
+         </tested>
+         <tested name="exist" line="15" column="13">
+            <test file="ay-block-registry-test_data-tests.adb" line="103" column="1" name="Test_exist_0f8140" timestamp="modified"/>
+         </tested>
+         <tested name="getBlockFactory" line="17" column="13">
+            <test file="ay-block-registry-test_data-tests.adb" line="138" column="1" name="Test_getBlockFactory_355a35" timestamp="modified"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="ay-block-special-factory.ads">
+      <test_unit target_file="ay-block-special-factory-t_getinputfactory_test_data-t_getinputfactory_tests.ads">
+         <setup file="ay-block-special-factory-t_getinputfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-special-factory-t_getinputfactory_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doNewBlock" line="5" column="14">
+            <test file="ay-block-special-factory-t_getinputfactory_test_data-t_getinputfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-special-factory-t_setoutputfactory_test_data-t_setoutputfactory_tests.ads">
+         <setup file="ay-block-special-factory-t_setoutputfactory_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-special-factory-t_setoutputfactory_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doNewBlock" line="10" column="14">
+            <test file="ay-block-special-factory-t_setoutputfactory_test_data-t_setoutputfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="ay-block-special.ads">
+      <test_unit target_file="ay-block-special-t_getinput_test_data-t_getinput_tests.ads">
+         <setup file="ay-block-special-t_getinput_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-special-t_getinput_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="pre" line="8" column="14">
+            <test file="ay-block-special-t_getinput_test_data-t_getinput_tests.adb" line="39" column="1" name="Test_pre_d62518" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-special-t_setoutput_test_data-t_setoutput_tests.ads">
+         <setup file="ay-block-special-t_setoutput_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-special-t_setoutput_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="post" line="18" column="14">
+            <test file="ay-block-special-t_setoutput_test_data-t_setoutput_tests.adb" line="39" column="1" name="Test_post_a9a713" timestamp="2021-01-30 14:54:49"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="ay-block.ads">
+      <test_unit target_file="ay-block-t_block_test_data-t_block_tests.ads">
+         <setup file="ay-block-t_block_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-t_block_test_data.adb" name="Tear_Down" line="15"  column="4"/>
+         <tested name="doInit" line="26" column="14">
+            <test file="ay-block-t_block_test_data-t_block_tests.adb" line="39" column="1" name="Test_doInit_9a6f7e" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="doCalc" line="29" column="14">
+            <test file="ay-block-t_block_test_data-t_block_tests.adb" line="60" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="doFinal" line="32" column="14">
+            <test file="ay-block-t_block_test_data-t_block_tests.adb" line="81" column="1" name="Test_doFinal_513a94" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-t_cblock_test_data-t_cblock_tests.ads">
+         <setup file="ay-block-t_cblock_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-t_cblock_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="doCalc" line="191" column="14">
+            <test file="ay-block-t_cblock_test_data-t_cblock_tests.adb" line="39" column="1" name="Test_doCalc_a00920" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-t_specialblock_test_data-t_specialblock_tests.ads">
+         <setup file="ay-block-t_specialblock_test_data.adb" name="Set_Up" line="9"  column="4"/>
+         <teardown file="ay-block-t_specialblock_test_data.adb" name="Tear_Down" line="16"  column="4"/>
+         <tested name="pre" line="56" column="14">
+            <test file="ay-block-t_specialblock_test_data-t_specialblock_tests.adb" line="39" column="1" name="Test_pre_d62518" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="post" line="62" column="14">
+            <test file="ay-block-t_specialblock_test_data-t_specialblock_tests.adb" line="60" column="1" name="Test_post_a9a713" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-test_data-tests-factory-t_blockfactory_test_data-t_blockfactory_tests.ads">
+         <tested name="doNewBlock" line="141" column="17">
+            <test file="ay-block-test_data-tests-factory-t_blockfactory_test_data-t_blockfactory_tests.adb" line="39" column="1" name="Test_doNewBlock_723db4" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-test_data-tests.ads">
+         <setup file="ay-block-test_data.adb" name="Set_Up" line="8"  column="4"/>
+         <teardown file="ay-block-test_data.adb" name="Tear_Down" line="14"  column="4"/>
+         <tested name="init" line="14" column="14">
+            <test file="ay-block-test_data-tests.adb" line="39" column="1" name="Test_init_ac83b1" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="calc" line="17" column="14">
+            <test file="ay-block-test_data-tests.adb" line="60" column="1" name="Test_calc_00cf4a" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="finalize" line="20" column="14">
+            <test file="ay-block-test_data-tests.adb" line="81" column="1" name="Test_finalize_0d6119" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="preCalc" line="44" column="14">
+            <test file="ay-block-test_data-tests.adb" line="102" column="1" name="Test_preCalc_060ad6" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="postCalc" line="50" column="14">
+            <test file="ay-block-test_data-tests.adb" line="123" column="1" name="Test_postCalc_4e6e4b" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-test_data-tests-buildin-test_data-tests.ads">
+         <setup file="ay-block-test_data-tests-buildin-test_data.adb" name="Set_Up" line="8"  column="4"/>
+         <teardown file="ay-block-test_data-tests-buildin-test_data.adb" name="Tear_Down" line="14"  column="4"/>
+         <tested name="getIn" line="75" column="16">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="39" column="1" name="Test_getIn_c8b1f9" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="getIn" line="77" column="16">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="60" column="1" name="Test_getIn_b32a2b" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="getIn" line="79" column="16">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="81" column="1" name="Test_getIn_a8219d" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="getIn" line="81" column="16">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="102" column="1" name="Test_getIn_3cc6d5" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="setOut" line="85" column="17">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="123" column="1" name="Test_setOut_f3e93e" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="setOut" line="87" column="17">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="144" column="1" name="Test_setOut_3b79c8" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="setOut" line="89" column="17">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="165" column="1" name="Test_setOut_203fe2" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="setOut" line="91" column="17">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="186" column="1" name="Test_setOut_a30b75" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="get" line="95" column="16">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="207" column="1" name="Test_get_e62a27" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="get" line="97" column="16">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="228" column="1" name="Test_get_44249e" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="get" line="99" column="16">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="249" column="1" name="Test_get_7f3239" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="get" line="101" column="16">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="270" column="1" name="Test_get_4f0660" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="set" line="103" column="17">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="291" column="1" name="Test_set_145d98" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="set" line="105" column="17">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="312" column="1" name="Test_set_722748" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="set" line="107" column="17">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="333" column="1" name="Test_set_76fde7" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="set" line="109" column="17">
+            <test file="ay-block-test_data-tests-buildin-test_data-tests.adb" line="354" column="1" name="Test_set_7be25c" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-test_data-tests-boot-test_data-tests.ads">
+         <setup file="ay-block-test_data-tests-boot-test_data.adb" name="Set_Up" line="8"  column="4"/>
+         <teardown file="ay-block-test_data-tests-boot-test_data.adb" name="Tear_Down" line="14"  column="4"/>
+         <tested name="bind" line="120" column="17">
+            <test file="ay-block-test_data-tests-boot-test_data-tests.adb" line="39" column="1" name="Test_bind_a72832" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="boundIn" line="126" column="16">
+            <test file="ay-block-test_data-tests-boot-test_data-tests.adb" line="60" column="1" name="Test_boundIn_c09857" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="boundOut" line="128" column="16">
+            <test file="ay-block-test_data-tests-boot-test_data-tests.adb" line="81" column="1" name="Test_boundOut_cf7b28" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+      <test_unit target_file="ay-block-test_data-tests-factory-test_data-tests.ads">
+         <setup file="ay-block-test_data-tests-factory-test_data.adb" name="Set_Up" line="8"  column="4"/>
+         <teardown file="ay-block-test_data-tests-factory-test_data.adb" name="Tear_Down" line="14"  column="4"/>
+         <tested name="newBlock" line="140" column="17">
+            <test file="ay-block-test_data-tests-factory-test_data-tests.adb" line="39" column="1" name="Test_newBlock_c2dda7" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="isBuildIn" line="143" column="16">
+            <test file="ay-block-test_data-tests-factory-test_data-tests.adb" line="60" column="1" name="Test_isBuildIn_93e5cc" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <unit source_file="ay-memory.ads">
+      <test_unit target_file="ay-memory-test_data-tests.ads">
+         <setup file="ay-memory-test_data.adb" name="Set_Up" line="8"  column="4"/>
+         <teardown file="ay-memory-test_data.adb" name="Tear_Down" line="14"  column="4"/>
+         <tested name="destroyVar" line="25" column="14">
+            <test file="ay-memory-test_data-tests.adb" line="39" column="1" name="Test_destroyVar_822130" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="get" line="29" column="13">
+            <test file="ay-memory-test_data-tests.adb" line="60" column="1" name="Test_get_80631e" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="get" line="31" column="13">
+            <test file="ay-memory-test_data-tests.adb" line="81" column="1" name="Test_get_777808" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="get" line="33" column="13">
+            <test file="ay-memory-test_data-tests.adb" line="102" column="1" name="Test_get_3474a4" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="get" line="35" column="13">
+            <test file="ay-memory-test_data-tests.adb" line="123" column="1" name="Test_get_1372e8" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="set" line="37" column="14">
+            <test file="ay-memory-test_data-tests.adb" line="144" column="1" name="Test_set_32600e" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="set" line="39" column="14">
+            <test file="ay-memory-test_data-tests.adb" line="165" column="1" name="Test_set_96ba80" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="set" line="41" column="14">
+            <test file="ay-memory-test_data-tests.adb" line="186" column="1" name="Test_set_9a8ca1" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="set" line="43" column="14">
+            <test file="ay-memory-test_data-tests.adb" line="207" column="1" name="Test_set_bb802b" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <tested name="clone" line="47" column="13">
+            <test file="ay-memory-test_data-tests.adb" line="228" column="1" name="Test_clone_a2c2a4" timestamp="2021-01-30 14:54:48"/>
+         </tested>
+         <dangling>
+         </dangling>
+      </test_unit>
+   </unit>
+   <additional_tests/>
+</tests_mapping>

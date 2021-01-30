@@ -1,0 +1,72 @@
+package body Ay.Block.Registry is
+
+   use type BList.List_Iterator;
+
+   -----------
+   -- Reset --
+   -----------
+
+   procedure reset (r: in out T_BlockRegistry) is
+   begin
+        while BList.First(r.reg) /= BList.Last(r.reg) loop
+            BList.Delete (BList.First(r.reg));
+        end loop;
+   end reset;
+
+   ---------------
+   -- newRecord --
+   ---------------
+
+   procedure newRecord
+     (r: in out T_BlockRegistry;
+      uid : Integer;
+      bf : Ay.Block.Factory.P_BlockFactory;
+      res : out Boolean)
+   is
+      iterator : BList.List_Iterator;
+   begin
+      res := False;
+      if not exist(r, uid) then
+         iterator := BList.First(r.reg);
+         BList.Insert(iterator, (uid => uid, bfactory => bf));
+         res := True;
+      end if;
+   end newRecord;
+
+   -----------
+   -- exist --
+   -----------
+
+   function exist (r : in T_BlockRegistry; uid : Integer) return Boolean is
+      found : Boolean;
+      iterator : BList.List_Iterator;
+   begin
+      iterator := BList.First(r.reg);
+      while iterator /= BList.Last(r.reg) loop
+         found := BList.Value(iterator).uid = uid;
+         exit when found;
+         iterator := BList.Succ(iterator);
+      end loop;
+      return found;
+   end exist;
+
+   ---------------------
+   -- getBlockFactory --
+   ---------------------
+
+   function getBlockFactory
+     (r : in T_BlockRegistry;
+      uid : Integer)
+      return Ay.Block.Factory.P_BlockFactory
+   is
+      iterator : BList.List_Iterator;
+   begin
+      iterator := BList.First(r.reg);
+      while iterator /= BList.Last(r.reg) loop
+         exit when BList.Value(iterator).uid = uid;
+         iterator := BList.Succ(iterator);
+      end loop;
+      return BList.Value(iterator).bfactory;
+   end getBlockFactory;
+
+end Ay.Block.Registry;
