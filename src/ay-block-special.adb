@@ -25,4 +25,20 @@ package body Ay.Block.Special is
       osec.elem(b.idx).v.all := b.inp.elem(1).v.all;
    end post;
 
+   package body Constructor is
+
+      procedure newInput (idx : Natural; b : out P_Block) is
+      begin
+         b := new T_GetInput;
+         T_GetInput(b.all).idx := idx;
+      end newInput;
+
+      procedure newOutput (idx : Natural; b : out P_Block) is
+      begin
+         b := new T_SetOutput;
+         T_SetOutput(b.all).idx := idx;
+      end newOutput;
+
+   end Constructor;
+
 end Ay.Block.Special;

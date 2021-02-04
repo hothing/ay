@@ -18,7 +18,7 @@ project AY is
    end Builder;
 
    package Compiler is
-      for Default_Switches ("ada") use ("-gnata", "-g", "-gnato", "-fstack-check", "-gnat05", "-gnatf");
+      for Default_Switches ("ada") use ("-gnata", "-g", "-gnato", "-fstack-check", "-gnatf", "-gnat12");
    end Compiler;
 
    package Linker is

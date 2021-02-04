@@ -1,11 +1,12 @@
 with Ay.Memory; use Ay.Memory;
+with Ay.Lists; 
 
 package Ay.Block is
    
    type T_BlockState is (Block_Wait, Block_Run, Block_Failed);
    
    type T_Block (In_Size, Out_Size, Static_Size : Natural) is 
-     tagged limited private;
+     abstract tagged limited private;
 
    type P_Block is access all T_Block'Class;
   
@@ -36,10 +37,10 @@ package Ay.Block is
    type T_CBlock is new T_Block with private;
    
    -- this kind of block is using by interpreter internally
+     
+   type T_SpecialBlock is abstract new T_Block with private; 
    
    type T_XBlockSection(Size : Natural) is private;
-   
-   type T_SpecialBlock is new T_Block with private; 
    
    procedure preCalc (b : in out T_SpecialBlock'Class; 
                       isec: in out T_XBlockSection;
@@ -133,7 +134,7 @@ package Ay.Block is
       
    package Factory is
       
-      type T_BlockFactory is abstract tagged null record;
+      type T_BlockFactory is abstract tagged limited null record;
 
       type P_BlockFactory is access T_BlockFactory'Class;
 
@@ -160,41 +161,26 @@ private
       end case;
    end record;  
    
-   type T_Block (In_Size, Out_Size, Static_Size : Natural) is tagged limited 
+   type T_Block (In_Size, Out_Size, Static_Size : Natural) is 
+     abstract tagged limited 
       record
-         inp : T_XBlockSection(In_Size);
-         outp : T_XBlockSection(Out_Size);
-         stat : T_XBlockSection(Static_Size);         
+         inp  : T_XBlockSection(In_Size); -- input's
+         outp : T_XBlockSection(Out_Size); -- output's
+         stat : T_XBlockSection(Static_Size); -- internal/static variables        
       end record; 
+     
+   type T_SpecialBlock is abstract new T_Block with null record; 
+   -- T_SpecialBlock is block type which is using internally by interpreter
+   -- for access the IN/OUT/STAT variables
    
-   type T_BlockChain;
-   type P_BlockChain is access all T_BlockChain;
-   type T_BlockChain is record
-      next : P_BlockChain;
-      block : P_Block;
-   end record;
-   
-   type T_SpecialBlock is new T_Block with null record; 
-   type P_SpecialBlock is access all T_SpecialBlock;   
-   
-   type T_SBlockChain;
-   type P_SBlockChain is access all T_SBlockChain;
-   type T_SBlockChain is record
-      next : P_SBlockChain;
-      block : P_SpecialBlock;
-   end record;
+   package BlockChain is new Ay.Lists(Item_Type => P_Block);
       
-   type T_CBlock is new T_Block with record
-      schain : P_SBlockChain; -- special block chain
-      bchain : P_BlockChain; -- user block execution chain
-   end record;
-   procedure doCalc (b : in out T_CBlock; res : out Boolean);
-
+   type P_BlockChain is access BlockChain.List_Type;
    
-   type T_CBlockIterpreter is 
-     tagged record
+   type T_CBlock is new T_Block with record
       schain : P_BlockChain; -- special block chain
       bchain : P_BlockChain; -- user block execution chain
    end record;
-   
+   procedure doCalc (b : in out T_CBlock; res : out Boolean);
+  
 end Ay.Block;

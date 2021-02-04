@@ -121,10 +121,7 @@ package body Ay.Block is
          return Boolean
       is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "boundOut unimplemented");
-         raise Program_Error with "Unimplemented function boundOut";
-         return boundOut (b => b, idx => idx);
+         return b.outp.elem(idx).bound;
       end boundOut;
 
    end Boot;
@@ -332,32 +329,31 @@ package body Ay.Block is
    ----------------------------------------------------------------------------
 
    procedure doCalc (b : in out T_CBlock; res : out Boolean) is
-      curr : P_BlockChain;
-      scurr : P_SBlockChain;
+      iter : BlockChain.List_Iterator;
       r, r2 : Boolean;
    begin
       res := false;
       -- special block .preCalc execution
-      scurr := b.schain;
-      while scurr /= null loop
-         preCalc(scurr.block.all, b.inp, b.outp, b.stat);
-         scurr := scurr.next;
+      iter := BlockChain.First(b.schain.all);
+      while BlockChain.hasSucc(iter) loop
+         preCalc(T_SpecialBlock(BlockChain.Value(iter).all), b.inp, b.outp, b.stat);
+         iter := BlockChain.Succ(iter);
       end loop;
 
       -- user block execution
-      curr := b.bchain;
-      r2 := (curr /= null);
-      while curr /= null loop
-         calc(curr.block.all, r);
+      iter := BlockChain.First(b.bchain.all);
+      r2 := BlockChain.hasSucc(iter);
+      while BlockChain.hasSucc(iter) loop
+         calc(BlockChain.Value(iter).all, r);
          r2 := r2 and r;
-         curr := curr.next;
+         iter := BlockChain.Succ(iter);
       end loop;
 
       -- special block .postCalc execution
-      scurr := b.schain;
-      while scurr /= null loop
-         postCalc(scurr.block.all, b.inp, b.outp, b.stat);
-         scurr := scurr.next;
+      iter := BlockChain.First(b.schain.all);
+      while BlockChain.hasSucc(iter) loop
+         postCalc(T_SpecialBlock(BlockChain.Value(iter).all), b.inp, b.outp, b.stat);
+         iter := BlockChain.Succ(iter);
       end loop;
       -- end
       res := r2;
@@ -376,8 +372,6 @@ package body Ay.Block is
       procedure newBlock (bc : in out T_BlockFactory'Class; b : out P_Block)
       is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "newBlock unimplemented");
          raise Program_Error with "Unimplemented procedure newBlock";
       end newBlock;
 
@@ -387,8 +381,6 @@ package body Ay.Block is
 
       procedure doNewBlock (bc : in out T_BlockFactory; b : out P_Block) is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "doNewBlock unimplemented");
          raise Program_Error with "Unimplemented procedure doNewBlock";
       end doNewBlock;
 
@@ -398,10 +390,7 @@ package body Ay.Block is
 
       function isBuildIn (bc : in T_BlockFactory'Class) return Boolean is
       begin
-         --  Generated stub: replace with real body!
-         pragma Compile_Time_Warning (Standard.True, "isBuildIn unimplemented");
-         raise Program_Error with "Unimplemented function isBuildIn";
-         return isBuildIn (bc => bc);
+         return True;
       end isBuildIn;
 
    end Factory;

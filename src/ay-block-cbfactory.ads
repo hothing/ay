@@ -1,6 +1,9 @@
-with JE.Lists; 
-
+with Ay.Lists; 
 with Ay.Block.Registry; use Ay.Block.Registry;
+
+with Ada.Containers.Vectors;
+with Ada.Containers.Ordered_Maps;
+use Ada.Containers;
 
 package Ay.Block.CBFactory is
 
@@ -57,14 +60,7 @@ package Ay.Block.CBFactory is
    procedure validate(bc : in out T_CBlockBuilder; res : out Integer);
    
    procedure finish(bc : in out T_CBlockBuilder; b : out P_CBlock);
-   
-   ----
-   
-   function getInputConnId(bc : in T_CBlockBuilder; idx : Positive ) return Integer;
-   
-   function getOutputConnId(bc : in T_CBlockBuilder; idx : Positive ) return Integer;
-   
-   function getStaticConnId(bc : in T_CBlockBuilder; idx : Positive ) return Integer;
+  
      
 private   
    
@@ -73,15 +69,40 @@ private
       prototype : P_CBlock;
    end record;   
      
-   package VarRegistry is new JE.Lists(Item_Type => T_DataType);
-      
-   type T_CBlockBuilder is 
-     new Ay.Block.Factory.T_BlockFactory with record
-      reg : P_BlockRegistry;
-      ivar : VarRegistry.List_Iterator;
-      ovar : VarRegistry.List_Iterator;
-      svar : VarRegistry.List_Iterator;
-      newBlock : P_CBlock;
+   package Variables is new Ay.Lists(Item_Type => P_Value);   
+   
+   type P_Variables is access all Variables.List_Type;   
+   
+   type T_Connector is record
+      block : P_Block;
+      pin : Natural;
+   end record;
+   
+   package Connectors is new Ay.Lists(Item_Type => T_Connector);
+   
+   type P_ConnList is access all Connectors.List_Type;  
+   
+   type T_Connection is record
+      source : T_Connector;
+      sinks : P_ConnList;
+   end record;
+
+   package Connections is 
+     new Ada.Containers.Ordered_Maps(Key_Type => Integer,
+                                     Element_Type => T_Connection);
+   
+   type T_CBlockBuilder is tagged record
+      ivar : P_Variables; -- list of input variables
+      ovar : P_Variables; -- list of output variables
+      svar : P_Variables; -- list of static varibales
+      ivit : Variables.List_Iterator; 
+      ovit : Variables.List_Iterator;
+      svit : Variables.List_Iterator;
+      conn : Connections.Map;
+      reg : P_BlockRegistry; -- block's registry     
+      newBlock : P_CBlock; -- creating block
+      actBlock : P_Block; -- an actual inserted block
+      state : Integer;
    end record;
    
 end Ay.Block.CBFactory;

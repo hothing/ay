@@ -10,10 +10,7 @@ with Ada.Text_IO; use Ada.Text_IO;
 procedure Main is
    type T_BlocksArray is array (1 .. 100) of P_Block;
    blks : T_BlocksArray;
-   fvar1 : T_FloatGlobal;
-   fvar2 : T_FloatGlobal;
-   fadd : T_FloatAdd;
-   --pb : P_Block;
+   pb : P_Block;
    r , r2 : Boolean;
    n : Integer := 10_000;
    m : Integer := 5;

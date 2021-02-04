@@ -19,7 +19,12 @@ package Ay.Block.Special is
                    isec: in out T_XBlockSection;
                    osec: in out T_XBlockSection;
                    ssec: in out T_XBlockSection); 
-
+   
+   package Constructor is
+      procedure newInput (idx : Natural; b : out P_Block);
+      procedure newOutput (idx : Natural; b : out P_Block);
+   end Constructor;
+   
 private
    
    type T_GetInput is new T_SpecialBlock(0, 1, 0) with record
