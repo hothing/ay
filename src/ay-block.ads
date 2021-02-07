@@ -2,6 +2,8 @@ with Ay.Memory; use Ay.Memory;
 with Ay.Lists; 
 
 package Ay.Block is
+    
+   ---------------------------------------------------------------------------
    
    type T_BlockState is (Block_Wait, Block_Run, Block_Failed);
    
@@ -66,6 +68,26 @@ package Ay.Block is
                    ssec: in out T_XBlockSection
                   );
    
+   ---------------------------------------------------------------------------
+   
+   type T_MetaBlock is abstract tagged private;
+
+   type P_MetaBlock is access all T_MetaBlock'Class;
+   
+   function getInputCount(mb : in T_MetaBlock) return Natural;
+   
+   function getOutputCount(mb : in T_MetaBlock) return Natural;
+   
+   function getStaticCount(mb : in T_MetaBlock) return Natural;
+   
+   function getInputType(mb : in T_MetaBlock; idx : Positive) return T_DataType;
+   
+   function getOutputType(mb : in T_MetaBlock; idx : Positive) return T_DataType;
+   
+   function getStaticType(mb : in T_MetaBlock; idx : Positive) return T_DataType;
+   
+   procedure makeInstance(mb : in T_MetaBlock; b : out P_Block);
+     
    ---------------------------------------------------------------------------
    
    package BuildIn is
@@ -150,6 +172,8 @@ private
    type T_VarBind is record
       v     : P_Value;
       bound : Boolean;
+      -- FIXME: bound must be replaced by CID : Integer;
+      -- this can help to handle the connections
    end record;
      
    type T_VarArea is array (Positive range <>) of T_VarBind;   
@@ -166,7 +190,8 @@ private
       record
          inp  : T_XBlockSection(In_Size); -- input's
          outp : T_XBlockSection(Out_Size); -- output's
-         stat : T_XBlockSection(Static_Size); -- internal/static variables        
+         stat : T_XBlockSection(Static_Size); -- internal/static variables
+         meta : P_MetaBlock;
       end record; 
      
    type T_SpecialBlock is abstract new T_Block with null record; 
@@ -182,5 +207,7 @@ private
       bchain : P_BlockChain; -- user block execution chain
    end record;
    procedure doCalc (b : in out T_CBlock; res : out Boolean);
+   
+   type T_MetaBlock is abstract tagged null record;
   
 end Ay.Block;

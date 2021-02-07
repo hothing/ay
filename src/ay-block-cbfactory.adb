@@ -296,7 +296,8 @@ package body Ay.Block.CBFactory is
          --    bind the output with actual input
          declare
             c : Connections.Cursor := Connections.First(bc.conn);
-            iter : Connectors.List_Iterator;
+            citer : Connectors.List_Iterator;
+            biter : BlockChain.List_Iterator;
             pk, ps : P_Block;
             ixk, ixs : Natural;
             res : Integer;
@@ -304,12 +305,18 @@ package body Ay.Block.CBFactory is
             while Connections.Has_Element(c) loop
                pk := Connections.Element(c).source.block;
                ixk := Connections.Element(c).source.pin;
-               iter := Connectors.First(Connections.Element(c).sinks.all);
-               while Connectors.hasSucc(iter) loop
-                  ps := Connectors.Value(iter).block;
-                  ixs := Connectors.Value(iter).pin;
+               citer := Connectors.First(Connections.Element(c).sinks.all);
+               while Connectors.hasSucc(citer) loop
+                  ps := Connectors.Value(citer).block;
+                  ixs := Connectors.Value(citer).pin;
                   Boot.bind(pk.all, ixk, ps.all, ixs, res);
+                  citer := Connectors.Succ(citer);
                end loop;
+            end loop;
+            biter := BlockChain.First(bc.newBlock.bchain.all);
+            while BlockChain.hasSucc(biter) loop
+               -- TODO: fixup I/O : null inputs will be created
+               biter := BlockChain.Succ(biter);
             end loop;
          end;
       else
