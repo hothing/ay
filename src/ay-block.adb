@@ -4,122 +4,225 @@ package body Ay.Block is
    -- init --
    ----------
 
-   procedure init (b : in out T_Block'Class; ma: in out T_MemoryAllocator'Class) is
+   procedure init (b : in out T_CBlock; res : out Boolean) is
+      rc : Boolean;
    begin
-      doInit(b, ma);
+      res := False;
+      if b.bcode /= null then
+         BlockChain.Rewind(b.bcode.bchain);
+         res := True;
+         while BlockChain.hasSucc(b.bcode.bchain) loop
+            BlockChain.Value(b.bcode.bchain).init(rc);
+            res := res and rc;
+            b.bcode.bchain := BlockChain.Succ(b.bcode.bchain);
+         end loop;
+      end if;
    end init;
 
-   ---------------
-   -- calculate --
-   ---------------
-
-   function calculate (b : in out T_Block'Class) return Boolean is
+   procedure reset (b : in out T_CBlock) is
    begin
-      return doCalc(b);
-   end calculate;
+      if b.bcode /= null then
+         BlockChain.Rewind(b.bcode.bchain);
+         while BlockChain.hasSucc(b.bcode.bchain) loop
+            BlockChain.Value(b.bcode.bchain).reset;
+            b.bcode.bchain := BlockChain.Succ(b.bcode.bchain);
+         end loop;
+      end if;
+      -- TODO: reset the instance variables
+   end reset;
 
-   --------------
-   -- getInput --
-   --------------
+   ----------
+   -- calc --
+   ----------
 
-   function getInput
-     (b : in T_Block'Class;
-      idx : T_PinIndex)
-      return P_PinLink
-   is
+   procedure calc (b : in out T_CBlock; res : out Boolean) is
    begin
-      return makePin(b, idx, False);
-   end getInput;
+      res := False;
+      if b.bcode /= null then
+         --read inputs
+         for i in 1 .. b.bcode.In_Size loop
+            copy(b.bcode.inp.elem(i).v.all, b.inp.elem(i).v);
+         end loop;
 
-   ---------------
-   -- getOutput --
-   ---------------
+         -- read static instances
+         for i in 1 .. b.bcode.Static_Size loop
+            copy(b.bcode.stat.elem(i).v.all, b.stat.elem(i).v);
+         end loop;
 
-   function getOutput
-     (b : in T_Block'Class;
-      idx : T_PinIndex)
-      return P_PinLink
-   is
+         calc(b.bcode.all, res);
+
+         -- write static instances
+         for i in 1 .. b.bcode.Static_Size loop
+            copy(b.stat.elem(i).v.all, b.bcode.stat.elem(i).v);
+         end loop;
+
+         --write outputs
+         for i in 1 .. b.bcode.Out_Size loop
+            copy(b.outp.elem(i).v.all, b.bcode.outp.elem(i).v);
+         end loop;
+      end if;
+   end calc;
+
+   -----------
+   -- final --
+   -----------
+
+   procedure final (b : in out T_CBlock) is
    begin
-      return makePin(b, idx, True);
-   end getOutput;
+      if b.bcode /= null then
+         BlockChain.Rewind(b.bcode.bchain);
+         while BlockChain.hasSucc(b.bcode.bchain) loop
+            BlockChain.Value(b.bcode.bchain).final;
+            b.bcode.bchain := BlockChain.Succ(b.bcode.bchain);
+         end loop;
+      end if;
+   end final;
 
-   --------------
-   -- setInput --
-   --------------
-
-   function setInput
-     (b : in out T_Block'Class;
-      idx : T_PinIndex;
-      pl : P_PinLink) return Boolean
-   is
+   procedure connect(b : in out T_CBlock; idx : in T_PinIndex; p : in P_Value) is
    begin
-      return linkPin(b, idx, False, pl);
-   end setInput;
+      if b.bcode /= null then
+         if idx < b.bcode.inp.Size then
+            -- NB:I'm not sure the condition is correct
+            -- Normally a BlockCode instance has all instantiated variables (P_Value)
+            if b.bcode.inp.elem(idx).v /= null then
+               if p'Tag in b.bcode.inp.elem(idx).v'Tag then
+                  b.bcode.inp.elem(idx).v := p;
+               else
+                  raise Program_Error with "wrong type of connection";
+               end if;
+            else
+               raise Program_Error with "code block is uninitialized";
+            end if;
+         else
+            raise Program_Error with "wrong pin index";
+         end if;
+      else
+         raise Program_Error with "block is uninitialized";
+      end if;
+   end connect;
 
-   ---------------
-   -- setOutput --
-   ---------------
 
-   function setOutput
-     (b : in out T_Block'Class;
-      idx : T_PinIndex;
-      pl : P_PinLink) return Boolean
-   is
+   procedure pull(b : in out T_CBlock; idx : in T_PinIndex; p : out P_Value) is
    begin
-      return linkPin(b, idx, True, pl);
-   end setOutput;
-
-   --------------
-   -- makeLink --
-   --------------
-
-   function makeLink
-     (bs : in T_Block'Class;
-      bd: in out T_Block'Class;
-      oid : T_PinIndex;
-      iid : T_PinIndex
-     )
-      return Boolean
-   is
-   begin
-      return setInput(bd, iid, getOutput(bs, oid));
-   end makeLink;
-
+      if b.bcode /= null then
+         if idx < b.bcode.outp.Size then
+            p := b.bcode.outp.elem(idx).v;
+         else
+            raise Program_Error with "wrong pin index";
+         end if;
+      else
+         raise Program_Error with "block is uninitialized";
+      end if;
+   end pull;
    ------------
-   -- doInit --
-   ------------
 
-   procedure doInit (b : in out T_Block; ma: in out T_MemoryAllocator'Class) is
+   procedure init (b : in out T_CBlockCode; res : out Boolean) is
    begin
       null;
-   end doInit;
+   end init;
 
-   ------------
-   -- doCalc --
-   ------------
-
-   function doCalc (b : in out T_Block) return Boolean is
+   procedure reset (b : in out T_CBlockCode) is
    begin
-      return True;
-   end doCalc;
+      null;
+   end reset;
 
-   ---------------
-   -- makePinIn --
-   ---------------
-
-   function makePin (b : in T_Block; idx : T_PinIndex; isOut : Boolean) return P_PinLink is
+   procedure calc (b : in out T_CBlockCode; res : out Boolean) is
+      rc : Boolean;
    begin
-      return null;
-   end makePin;
+      -- main calculation
+         BlockChain.Rewind(b.bchain);
+         res := True;
+         while BlockChain.hasSucc(b.bchain) loop
+            BlockChain.Value(b.bchain).calc(rc);
+            res := res and rc;
+            b.bchain := BlockChain.Succ(b.bchain);
+         end loop;
+   end calc;
 
-   ----------------
-   -- makePinOut --
-   ----------------
-
-   function linkPin (b : in out T_Block; idx : T_PinIndex; isOut : Boolean; p : P_PinLink) return Boolean is
+   procedure final (b : in out T_CBlockCode) is
    begin
-     return False;
-   end linkPin;
+      null;
+   end final;
+
+   procedure connect(b : in out T_CBlockCode; idx : in T_PinIndex; p : in P_Value) is
+   begin
+      null;
+   end connect;
+
+   procedure pull(b : in out T_CBlockCode; idx : in T_PinIndex; p : out P_Value) is
+   begin
+      null;
+   end pull;
+
+   ------------------
+   -- makeInstance --
+   ------------------
+
+   procedure makeInstance (mb : in P_MetaBlock; b : out P_InstantingBlock) is
+   begin
+      newInstance(mb.all, b);
+      b.meta := mb;
+   end makeInstance;
+
+   ----------
+   -- Boot --
+   ----------
+
+   package body Boot is
+
+      ----------
+      -- bind --
+      ----------
+
+      procedure bind
+        (bsrc : in out T_InstantingBlock'Class;
+         idxs: T_PinIndex;
+         btgt : in out T_InstantingBlock'Class;
+         idxt: T_PinIndex;
+         res : out Boolean)
+      is
+         p : P_Value;
+      begin
+         res := False;
+         pull(bsrc, idxs, p);
+         connect(btgt, idxt, p);
+         res := True;
+      end bind;
+
+      -------------
+      -- fixupIO --
+      -------------
+
+      procedure fixupInputs (b : in out T_CBlock'Class) is
+      begin
+         for i in 1 .. b.In_Size loop
+            if (b.inp.elem(i).v = null) then
+               b.inp.elem(i).v := newValue(b.meta.getInputType(i));
+               b.inp.elem(i).cid := 0;
+            end if;
+         end loop;
+      end fixupInputs;
+
+      procedure fixupOutputs (b : in out T_CBlock'Class) is
+      begin
+         for i in 1 .. b.Out_Size loop
+            if (b.outp.elem(i).v = null) then
+               b.outp.elem(i).v := newValue(b.meta.getOutputType(i));
+               --b.outp.elem(i).cid := 0;
+            end if;
+         end loop;
+      end fixupOutputs;
+
+      procedure fixupStatic (b : in out T_CBlock'Class) is
+      begin
+         for i in 1 .. b.Static_Size loop
+            if (b.stat.elem(i).v = null) then
+               b.stat.elem(i).v := newValue(b.meta.getStaticType(i));
+               b.stat.elem(i).cid := 0;
+            end if;
+         end loop;
+      end fixupStatic;
+
+   end Boot;
 
 end Ay.Block;
