@@ -1,61 +1,54 @@
 package Ay.Block.Logical is
    
-   type T_Logic1x1Block is abstract limited new T_InstantingBlock with private;
+   type T_Not_Meta is new T_Meta_Info with private;  
    
-   procedure init (b : in out T_Logic1x1Block; res : out Boolean);   
-   procedure reset (b : in out T_Logic1x1Block);
-   procedure final (b : in out T_Logic1x1Block);
-   procedure connect(b : in out T_Logic1x1Block; idx : T_PinIndex; p : P_Value);
-   procedure pull(b : in out T_Logic1x1Block; idx : T_PinIndex; p : out P_Value);
-   
-   
-   type T_Logic2x1Block is abstract limited new T_Logic1x1Block with private;
-   
-   procedure init (b : in out T_Logic2x1Block; res : out Boolean);
-   procedure reset (b : in out T_Logic2x1Block);
-   procedure connect(b : in out T_Logic2x1Block; idx : T_PinIndex; p : P_Value);
+   -- The function indicates the block has the internal variables/state
+   function is_Static(mb : in T_Not_Meta) return Boolean ;
       
-   type T_Logic1x1MetaBlock is abstract new T_MetaBlock with private;
+   function get_Input_Count(mb : in T_Not_Meta) return T_Pin_Count;
    
-   function isBuildIn(mb : in T_Logic1x1MetaBlock) return Boolean;
-   
-   function getInputCount(mb : in T_Logic1x1MetaBlock) return Natural;
-   
-   function getOutputCount(mb : in T_Logic1x1MetaBlock) return Natural;
-   
-   function getStaticCount(mb : in T_Logic1x1MetaBlock) return Natural;
-   
-   function getInputType(mb : in T_Logic1x1MetaBlock; idx : T_PinIndex) return T_DataType;
-   
-   function getOutputType(mb : in T_Logic1x1MetaBlock; idx : T_PinIndex) return T_DataType;
-   
-   function getStaticType(mb : in T_Logic1x1MetaBlock; idx : T_PinIndex) return T_DataType;
-   
-   procedure newInstance(mb : in T_Logic1x1MetaBlock; b : out P_InstantingBlock) is abstract;
-   
-   type T_Logic2x1MetaBlock is abstract new T_Logic1x1MetaBlock with private;   
-   
-   function getInputCount(mb : in T_Logic2x1MetaBlock) return Natural;
-     
-   function getInputType(mb : in T_Logic2x1MetaBlock; idx : T_PinIndex) return T_DataType;
+   function get_Output_Count(mb : in T_Not_Meta) return T_Pin_Count;
       
-   procedure newInstance(mb : in T_Logic2x1MetaBlock; b : out P_InstantingBlock) is abstract;
+   function get_Input_Type(mb : in T_Not_Meta; pin : T_Pin_Index) return T_Signal_Type ;
+   
+   function get_Output_Type(mb : in T_Not_Meta; pin : T_Pin_Index) return T_Signal_Type ;
+      
+   procedure new_Instance(mb : in T_Not_Meta; b : out P_Block) ;
+   
+   
+   type T_And_Meta is new T_Meta_Info with private;  
+   
+   -- The function indicates the block has the internal variables/state
+   function is_Static(mb : in T_And_Meta) return Boolean ;
+      
+   function get_Input_Count(mb : in T_And_Meta) return T_Pin_Count;
+   
+   function get_Output_Count(mb : in T_And_Meta) return T_Pin_Count;
+      
+   function get_Input_Type(mb : in T_And_Meta; pin : T_Pin_Index) return T_Signal_Type ;
+   
+   function get_Output_Type(mb : in T_And_Meta; pin : T_Pin_Index) return T_Signal_Type ;
+      
+   procedure new_Instance(mb : in T_And_Meta; b : out P_Block) ;
+   
+   
+   type T_Or_Meta is new T_And_Meta with private;
+   
+   procedure new_Instance(mb : in T_Or_Meta; b : out P_Block) ;
+   
+   
+   type T_Xor_Meta is new T_Or_Meta with private;
+   
+   procedure new_Instance(mb : in T_Xor_Meta; b : out P_Block) ;
    
 private
    
-   type T_Logic1x1Block is abstract limited new T_InstantingBlock with
-      record
-         out1 : P_Boolean;
-         in1 : P_Boolean;
-      end record;
+   type T_Not_Meta is new T_Meta_Info with null record; 
    
-   type T_Logic2x1Block is abstract limited new T_Logic1x1Block with
-      record
-         in2 : P_Boolean;
-      end record;
+   type T_And_Meta is new T_Meta_Info with null record; 
    
-   type T_Logic1x1MetaBlock is abstract new T_MetaBlock with null record;
+   type T_Or_Meta is new T_And_Meta with null record;
    
-   type T_Logic2x1MetaBlock is abstract new T_Logic1x1MetaBlock with null record;
+   type T_Xor_Meta is new T_Or_Meta with null record;
    
 end Ay.Block.Logical;

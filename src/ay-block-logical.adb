@@ -1,222 +1,168 @@
+with Ay.Block.Logical.FnNot;
+with Ay.Block.Logical.FnAnd;
+
 package body Ay.Block.Logical is
 
-   ----------
-   -- init --
-   ----------
-
-   procedure init (b : in out T_Logic1x1Block; res : out Boolean) is
-   begin
-      if b.in1 = null then
-         b.in1 := new T_Boolean;
-      end if;
-      if b.out1 = null then
-         b.out1 := new T_Boolean;
-      end if;
-      res := True;
-   end init;
-
-   procedure reset (b : in out T_Logic1x1Block) is
-   begin
-      b.in1.v := False;
-      b.out1.v := False;
-   end reset;
-
-   procedure final (b : in out T_Logic1x1Block) is
-   begin
-      null;
-   end final;
-   -------------
-   -- connect --
-   -------------
-
-   procedure connect (b : in out T_Logic1x1Block; idx : T_PinIndex; p : P_Value) is
-      pb : P_Boolean;
-   begin
-      if p'Tag in T_Boolean'Tag then
-         pb := P_Boolean(p);
-      else
-         raise Program_Error with "wrong type of connection";
-      end if;
-      case idx is
-         when 1 =>
-            b.in1 := pb;
-         when others =>
-            raise Program_Error with "wrong pin index";
-      end case;
-   end connect;
-
-   ----------
-   -- pull --
-   ----------
-
-   procedure pull (b : in out T_Logic1x1Block; idx : T_PinIndex; p : out P_Value)
-   is
-   begin
-      if idx = 1 then
-         p := P_Value(b.out1);
-      else
-         raise Program_Error with "wrong pin index";
-      end if;
-   end pull;
-
-
-   ----------
-   -- init --
-   ----------
-
-   procedure init (b : in out T_Logic2x1Block; res : out Boolean) is
-   begin
-      if b.in1 = null then
-         b.in1 := new T_Boolean;
-      end if;
-      if b.in2 = null then
-         b.in2 := new T_Boolean;
-      end if;
-      if b.out1 = null then
-         b.out1 := new T_Boolean;
-      end if;
-      res := True;
-   end init;
-
-   procedure reset (b : in out T_Logic2x1Block) is
-   begin
-      b.in1.v := False;
-      b.in2.v := False;
-      b.out1.v := False;
-   end reset;
-
-   -------------
-   -- connect --
-   -------------
-
-   procedure connect (b : in out T_Logic2x1Block; idx : T_PinIndex; p : P_Value) is
-      pb : P_Boolean;
-   begin
-      if p'Tag in T_Boolean'Tag then
-         pb := P_Boolean(p);
-      else
-         raise Program_Error with "wrong type of connection";
-      end if;
-      case idx is
-         when 1 =>
-            b.in1 := pb;
-         when 2=>
-            b.in2 := pb;
-         when others =>
-            raise Program_Error with "wrong pin index";
-      end case;
-   end connect;
-
    ---------------
-   -- isBuildIn --
+   -- is_Static --
    ---------------
 
-   function isBuildIn (mb : in T_Logic1x1MetaBlock) return Boolean is
+   function is_Static (mb : in T_Not_Meta) return Boolean is
    begin
-      return True;
-   end isBuildIn;
+      return False;
+   end is_Static;
 
-   -------------------
-   -- getInputCount --
-   -------------------
+   ---------------------
+   -- get_Input_Count --
+   ---------------------
 
-   function getInputCount (mb : in T_Logic1x1MetaBlock) return Natural is
-   begin
-      return 1;
-   end getInputCount;
-
-   --------------------
-   -- getOutputCount --
-   --------------------
-
-   function getOutputCount (mb : in T_Logic1x1MetaBlock) return Natural is
+   function get_Input_Count (mb : in T_Not_Meta) return T_Pin_Count is
    begin
       return 1;
-   end getOutputCount;
+   end get_Input_Count;
+
+   ----------------------
+   -- get_Output_Count --
+   ----------------------
+
+   function get_Output_Count (mb : in T_Not_Meta) return T_Pin_Count is
+   begin
+      return 1;
+   end get_Output_Count;
 
    --------------------
-   -- getStaticCount --
+   -- get_Input_Type --
    --------------------
 
-   function getStaticCount (mb : in T_Logic1x1MetaBlock) return Natural is
+   function get_Input_Type
+     (mb : in T_Not_Meta;
+      pin : T_Pin_Index)
+      return T_Signal_Type
+   is
    begin
-      return 0;
-   end getStaticCount;
+      if pin = 1 then
+         return DT_Bool;
+      else
+         return DT_Unknown;
+      end if;
+   end get_Input_Type;
+
+   ---------------------
+   -- get_Output_Type --
+   ---------------------
+
+   function get_Output_Type
+     (mb : in T_Not_Meta;
+      pin : T_Pin_Index)
+      return T_Signal_Type
+   is
+   begin
+      if pin = 1 then
+         return DT_Bool;
+      else
+         return DT_Unknown;
+      end if;
+   end get_Output_Type;
 
    ------------------
-   -- getInputType --
+   -- new_Instance --
    ------------------
 
-   function getInputType
-     (mb : in T_Logic1x1MetaBlock;
-      idx : T_PinIndex)
-      return T_DataType
-   is
+   procedure new_Instance (mb : in T_Not_Meta; b : out P_Block) is
    begin
-      if idx <= getInputCount(mb) then
-         return T_DataType'(atype => DT_Bool, isArray => false, dim1 => 0,dim2 =>0);
-      else
-         return T_DataType'(atype => DT_Unknown, isArray => false, dim1 => 0,dim2 =>0);
-      end if;
-   end getInputType;
+      b := new Ay.Block.Logical.FnNot.T_Not;
+   end new_Instance;
 
-   -------------------
-   -- getOutputType --
-   -------------------
+   ---------------
+   -- is_Static --
+   ---------------
 
-   function getOutputType
-     (mb : in T_Logic1x1MetaBlock;
-      idx : T_PinIndex)
-      return T_DataType
-   is
+   function is_Static (mb : in T_And_Meta) return Boolean is
    begin
-      if idx < getOutputCount(mb) then
-         return T_DataType'(atype => DT_Bool, isArray => false, dim1 => 0,dim2 =>0);
-      else
-         return T_DataType'(atype => DT_Unknown, isArray => false, dim1 => 0,dim2 =>0);
-      end if;
-   end getOutputType;
+      return False;
+   end is_Static;
 
-   -------------------
-   -- getStaticType --
-   -------------------
+   ---------------------
+   -- get_Input_Count --
+   ---------------------
 
-   function getStaticType
-     (mb : in T_Logic1x1MetaBlock;
-      idx : T_PinIndex)
-      return T_DataType
-   is
-   begin
-      return T_DataType'(atype => DT_Unknown,
-                         isArray => false,
-                         dim1 => 0,
-                         dim2 =>0);
-   end getStaticType;
-
-   -------------------
-   -- getInputCount --
-   -------------------
-
-   function getInputCount (mb : in T_Logic2x1MetaBlock) return Natural is
+   function get_Input_Count (mb : in T_And_Meta) return T_Pin_Count is
    begin
       return 2;
-   end getInputCount;
+   end get_Input_Count;
 
-   ------------------
-   -- getInputType --
-   ------------------
+   ----------------------
+   -- get_Output_Count --
+   ----------------------
 
-   function getInputType
-     (mb : in T_Logic2x1MetaBlock;
-      idx : T_PinIndex)
-      return T_DataType
+   function get_Output_Count (mb : in T_And_Meta) return T_Pin_Count is
+   begin
+      return 1;
+   end get_Output_Count;
+
+   --------------------
+   -- get_Input_Type --
+   --------------------
+
+   function get_Input_Type
+     (mb : in T_And_Meta;
+      pin : T_Pin_Index)
+      return T_Signal_Type
    is
    begin
-      if idx <= getInputCount(mb) then
-         return T_DataType'(atype => DT_Bool, isArray => false, dim1 => 0,dim2 =>0);
+      if pin = 1 or pin = 2 then
+         return DT_Bool;
       else
-         return T_DataType'(atype => DT_Unknown, isArray => false, dim1 => 0,dim2 =>0);
+         return DT_Unknown;
       end if;
-   end getInputType;
+   end get_Input_Type;
+
+   ---------------------
+   -- get_Output_Type --
+   ---------------------
+
+   function get_Output_Type
+     (mb : in T_And_Meta;
+      pin : T_Pin_Index)
+      return T_Signal_Type
+   is
+   begin
+      if pin = 1 then
+         return DT_Bool;
+      else
+         return DT_Unknown;
+      end if;
+   end get_Output_Type;
+
+   ------------------
+   -- new_Instance --
+   ------------------
+
+   procedure new_Instance (mb : in T_And_Meta; b : out P_Block) is
+   begin
+      b := new Ay.Block.Logical.FnAnd.T_And;
+   end new_Instance;
+
+   ------------------
+   -- new_Instance --
+   ------------------
+
+   procedure new_Instance (mb : in T_Or_Meta; b : out P_Block) is
+   begin
+      --  Generated stub: replace with real body!
+      pragma Compile_Time_Warning (Standard.True, "new_Instance unimplemented");
+      raise Program_Error with "Unimplemented procedure new_Instance";
+   end new_Instance;
+
+   ------------------
+   -- new_Instance --
+   ------------------
+
+   procedure new_Instance (mb : in T_Xor_Meta; b : out P_Block) is
+   begin
+      --  Generated stub: replace with real body!
+      pragma Compile_Time_Warning (Standard.True, "new_Instance unimplemented");
+      raise Program_Error with "Unimplemented procedure new_Instance";
+   end new_Instance;
 
 end Ay.Block.Logical;

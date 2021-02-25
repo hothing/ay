@@ -1,17 +1,26 @@
 with Ay.Lists; 
+with Ay.Connector; use Ay.Connector;
 
 package Ay.Block is
    
-   subtype T_PinIndex is Natural range 1 .. 255;
-
+   subtype T_Pin_Count is Natural range 0 .. 255;
+   subtype T_Pin_Index is T_Pin_Count range 1 .. 255;
+   
    ---------------------------------------------------------------------------
    
+   type T_Meta_Info;
+
+   type P_Meta_Info is access T_Meta_Info'Class;  
    
+   ---------------------------------------------------------------------------
+      
    type T_Block is abstract tagged limited private;
 
    type P_Block is access all T_Block'Class;
   
-   ---------------------------------------------------------------------------
+   -- The method gets an meta information descriptor
+   function get_Meta(b : in T_Block) return P_Meta_Info;
+   
    
    -- The method 'Init' initializes the block 
    procedure init (b : in out T_Block; res : out Boolean) is abstract;
@@ -25,139 +34,51 @@ package Ay.Block is
    -- The method 'Final' releases the block resources
    procedure final (b : in out T_Block) is abstract;
    
+   -- The method 'connect' make a connection with output
+   procedure connect_Output(b : in out T_Block; 
+                            pin : in T_Pin_Index; -- block pin                         
+                            cp : in T_Connector; -- connection point
+                            stub : in Boolean -- do not mark as connected
+                           ) is abstract;
+   
    -- The method 'connect' make a connection with input
-   procedure connect(b : in out T_Block; idx : in T_PinIndex; p : in P_Value) is abstract;
+   procedure connect_Input(b : in out T_Block; 
+                           pin : in T_Pin_Index; -- block pin 
+                           cp : in T_Connector; -- connection point
+                           stub : in Boolean -- do not mark as connected
+                          ) is abstract;
    
-   -- The method 'pull' gets the reference to output
-   procedure pull(b : in out T_Block; idx : in T_PinIndex; p : out P_Value) is abstract;
    
-   ---------------------------------------------------------------------------
-      
-   type T_InstantingBlock is abstract limited new T_Block with private;
+   -- The function indicates an connection with another block output
+   function is_In_Connected (b : in T_Block;
+                              pin : T_Pin_Index) return Boolean is abstract;
    
-   -- NB: this type must be used for all calculated buil-in blocks!
-   
-   type P_InstantingBlock is access all T_InstantingBlock'Class;
-   
-   ---------------------------------------------------------------------------
-  
-   type T_CBlock(In_Size, Out_Size, Static_Size : Natural) is new T_Block with private;
-   
-   procedure init (b : in out T_CBlock; res : out Boolean);
-   
-   procedure reset (b : in out T_CBlock);
-   
-   procedure calc (b : in out T_CBlock; res : out Boolean);
-   
-   procedure final (b : in out T_CBlock);
-   
-   procedure connect(b : in out T_CBlock; idx : in T_PinIndex; p : in P_Value);
-   
-   procedure pull(b : in out T_CBlock; idx : in T_PinIndex; p : out P_Value);
+   function is_Out_Connected (b : in T_Block;
+                               pin : T_Pin_Index) return Boolean is abstract;
    
    ---------------------------------------------------------------------------
    
-   type T_MetaBlock is abstract tagged private;
-
-   type P_MetaBlock is access T_MetaBlock'Class;
+   type T_Meta_Info is abstract tagged null record;  
    
-   function isBuildIn(mb : in T_MetaBlock) return Boolean is abstract;
-   
-   function getInputCount(mb : in T_MetaBlock) return Natural is abstract;
-   
-   function getOutputCount(mb : in T_MetaBlock) return Natural is abstract;
-   
-   function getStaticCount(mb : in T_MetaBlock) return Natural is abstract;
-   
-   function getInputType(mb : in T_MetaBlock; idx : T_PinIndex) return T_DataType is abstract;
-   
-   function getOutputType(mb : in T_MetaBlock; idx : T_PinIndex) return T_DataType is abstract;
-   
-   function getStaticType(mb : in T_MetaBlock; idx : T_PinIndex) return T_DataType is abstract;
-   
-   procedure newInstance(mb : in T_MetaBlock; b : out P_InstantingBlock) is abstract;
-   
-   procedure makeInstance(mb : in P_MetaBlock; b : out P_InstantingBlock);
-   
-   ---------------------------------------------------------------------------
-   package Boot is
+   -- The function indicates the block has the internal variables/state
+   function is_Static(mb : in T_Meta_Info) return Boolean is abstract;
       
-      -- A function 'bind' binds the input of block with 
-      -- output of another block.
+   function get_Input_Count(mb : in T_Meta_Info) return T_Pin_Count is abstract;
+   
+   function get_Output_Count(mb : in T_Meta_Info) return T_Pin_Count is abstract;
       
-      procedure bind(bsrc : in out T_InstantingBlock'Class; 
-                     idxs: T_PinIndex;
-                     btgt : in out T_InstantingBlock'Class; 
-                     idxt: T_PinIndex;                                  
-                     res : out Boolean);           
+   function get_Input_Type(mb : in T_Meta_Info; pin : T_Pin_Index) return T_Signal_Type is abstract;
+   
+   function get_Output_Type(mb : in T_Meta_Info; pin : T_Pin_Index) return T_Signal_Type is abstract;
       
-      procedure fixupInputs (b : in out T_CBlock'Class);   
-      
-      procedure fixupOutputs (b : in out T_CBlock'Class);
-      
-      procedure fixupStatic (b : in out T_CBlock'Class);
-      
-   end Boot;
-     
+   procedure new_Instance(mb : in T_Meta_Info; b : out P_Block) is abstract;
+   
+   procedure make_Instance(mb : in P_Meta_Info; b : out P_Block);
+   
 private
-   
-   type T_Variable is record
-      v     : P_Value; -- reference to a value
-      cid   : Integer; -- Connection Identity
-            -- this can help to handle the connections
-   end record;
-     
-   type T_VarArea is array (Positive range <>) of T_Variable;   
-      
-   type T_VarSection(Size : Natural) is record
-      case Size is
-         when 0 => null;
-         when others => elem : T_VarArea (1 .. Size);
-      end case;
+    
+   type T_Block is abstract tagged limited record
+      meta : P_Meta_Info;
    end record;  
-   
-   type T_Block is abstract tagged limited  null record; 
      
-   type T_InstantingBlock is abstract limited new T_Block with record
-         meta : P_MetaBlock;
-   end record;
-      
-   ---------------------------------------------------------------------------
-   
-   package BlockChain is new Ay.Lists(Item_Type => P_InstantingBlock);
-      
-   type P_BlockChain is access BlockChain.List_Type;
-      
-   type T_CBlockCode(In_Size, Out_Size, Static_Size : Natural) is 
-     new T_Block with record
-      inp  : T_VarSection(In_Size); -- input's
-      outp : T_VarSection(Out_Size); -- output's
-      stat : T_VarSection(Static_Size); -- internal/static variables
-      bchain : BlockChain.List_Iterator; -- user block execution chain
-   end record;
-      
-   type P_CBlockCode is access T_CBlockCode;
-   
-   procedure init (b : in out T_CBlockCode; res : out Boolean);
-   
-   procedure reset (b : in out T_CBlockCode);
-   
-   procedure calc (b : in out T_CBlockCode; res : out Boolean);
-   
-   procedure final (b : in out T_CBlockCode);
-   
-   procedure connect(b : in out T_CBlockCode; idx : in T_PinIndex; p : in P_Value);
-   
-   procedure pull(b : in out T_CBlockCode; idx : in T_PinIndex; p : out P_Value);
-   
-   type T_CBlock(In_Size, Out_Size, Static_Size : Natural) is 
-     new T_InstantingBlock with record
-      inp  : T_VarSection(In_Size); -- input's
-      outp : T_VarSection(Out_Size); -- output's
-      stat : T_VarSection(Static_Size); -- internal/static variables
-      bcode : P_CBlockCode; -- user block code
-   end record;
-      
-   type T_MetaBlock is abstract tagged null record;
-  
 end Ay.Block;

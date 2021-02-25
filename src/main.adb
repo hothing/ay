@@ -1,74 +1,48 @@
 with Ay; use Ay;
 with Ay.Block; use Ay.Block;
 with Ay.Block.Logical; use Ay.Block.Logical;
-with Ay.Block.Logical.LAnd; use Ay.Block.Logical.LAnd;
-with Ay.Block.Logical.LOr; use Ay.Block.Logical.LOr;
-with Ay.Block.Logical.LXOr; use Ay.Block.Logical.LXOr;
-with Ay.Block.Logical.LNot; use Ay.Block.Logical.LNot;
-with Ay.Block.Registry; use Ay.Block.Registry;
+with Ay.Block.Logical.LAnd;
+with Ay.Block.Logical.LOr;
+with Ay.Block.Logical.LNot;
+
+with Ay.Connector; use Ay.Connector;
+with Ay.Registry; use Ay.Registry;
 
 with Ada.Text_IO; use Ada.Text_IO;
 
 
 procedure Main is
-
-   procedure set(p : P_Value; v : Boolean) is
-   begin
-      if p /= null and then p'Tag in T_Boolean'Tag then
-         P_Boolean(p).v := v;
-      end if;
-   end set;
-
-   function get(p : P_Value) return Boolean is
-   begin
-      if p /= null and then p'Tag in T_Boolean'Tag then
-         return P_Boolean(p).v;
-      else
-         return False;
-      end if;
-   end get;
-
-   procedure set(p : P_Value; v : Integer) is
-   begin
-      if p /= null and then p'Tag in T_Integer'Tag then
-         P_Integer(p).v := v;
-      end if;
-   end set;
-
-   type ArrayOfBlock is array(1 .. 100) of P_InstantingBlock;
-
-   pxa, pxb, pxc : P_Value;
-   greg : T_BlockRegistry;
+   type T_BlockArray is array (Positive range <>) of P_Block;
+   type T_CbArray is array (Positive range <>) of T_Connector(DT_Bool);
+   blks : T_BlockArray (1 .. 20);
+   greg : Ay.Registry.T_BlockRegistry;
+   pi : P_BlockInterface;
    r : Boolean;
-   blks : ArrayOfBlock;
+   cp : T_CbArray (1 .. 5);
 begin
    -- prepare
-   pxa := new T_Boolean'(v => False);
-   pxb := new T_Boolean'(v => True);
 
    -- registry testing
-   newRecord(greg, 1, new T_NotMetaBlock, r);
-   newRecord(greg, 2, new T_AndMetaBlock, r);
-   newRecord(greg, 3, new T_OrMetaBlock, r);
-   newRecord(greg, 4, new T_XorMetaBlock, r);
+   newRecord(greg, 1, new LNot.T_NotMeta, r);
+   newRecord(greg, 2, new LAnd.T_AndMeta, r);
+   newRecord(greg, 3, new LOr.T_OrMeta, r);
 
    newBlockInstance(greg, 1, blks(1));
    newBlockInstance(greg, 2, blks(2));
    newBlockInstance(greg, 3, blks(3));
-   newBlockInstance(greg, 4, blks(4));
+   newBlockInstance(greg, 3, blks(4));
 
-   -- make a connection diagram
-   -- the diagram represents the formula: (not a and b) or False
-   blks(1).connect(1, pxa);
-   blks(1).pull(1, pxc);
-   blks(2).connect(1, pxc);
-   blks(2).connect(2, pxb);
-   blks(2).pull(1, pxc);
-   blks(3).connect(1, pxc);
-   blks(3).pull(1, pxc);
+   for c of cp loop
+      init(c);
+   end loop;
 
-   -- NB: a procedure for the initiating of the missing inputs is not implemented
-   -- and the exception will happen during call of 'calc'
+   blks(1).connectOutput(1, cp(1));
+   blks(2).connectInput(1, cp(1));
+   blks(2).connectOutput(1, cp(2));
+   blks(3).connectInput(1, cp(2));
+   blks(3).connectOutput(1,cp(3));
+   blks(4).connectInput(1, cp(3));
+
    ---
    for i in 1 .. blks'Last loop
       if blks(i) /= null then
@@ -82,14 +56,21 @@ begin
       end if;
    end loop;
 
-   set(pxa, False);
-   set(pxb, True);
+   pi := blks(2).getInterface;
+   pi.setValue(True, 2, True);
 
-   for i in 1 .. blks'Last loop
-      if blks(i) /= null then
-         blks(i).calc(r);
+   for i in 1 .. 100_000 loop
+   for blk of blks loop
+      if blk /= null then
+         blk.calc(r);
       end if;
+      end loop;
    end loop;
 
-   Put_Line(Boolean'Image(get(pxc)));
+   pi := blks(4).getInterface;
+   if pi /=null then
+      Put_Line(Boolean'Image(pi.getValue(false, 1)));
+   else
+      Put_Line("Result is not available");
+   end if;
 end Main;

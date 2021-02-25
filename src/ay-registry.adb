@@ -1,4 +1,4 @@
-package body Ay.Block.Registry is
+package body Ay.Registry is
 
    use type BList.List_Iterator;
 
@@ -20,7 +20,7 @@ package body Ay.Block.Registry is
    procedure newRecord
      (r: in out T_BlockRegistry;
       uid : Integer;
-      m : Ay.Block.P_MetaBlock;
+      m : Ay.Block.P_MetaInfo;
       res : out Boolean)
    is
       iterator : BList.List_Iterator;
@@ -57,7 +57,7 @@ package body Ay.Block.Registry is
    function getBlockFactory
      (r : in T_BlockRegistry;
       uid : Integer)
-      return Ay.Block.P_MetaBlock
+      return Ay.Block.P_MetaInfo
    is
       iterator : BList.List_Iterator;
    begin
@@ -69,17 +69,17 @@ package body Ay.Block.Registry is
       return BList.Value(iterator).bfactory;
    end getBlockFactory;
 
-   procedure newBlockInstance(r : in T_BlockRegistry; uid : Integer; b : out P_InstantingBlock) is
-      mb : Ay.Block.P_MetaBlock;
+   procedure newBlockInstance(r : in T_BlockRegistry; uid : Integer; b : out P_Block) is
+      mb : Ay.Block.P_MetaInfo;
    begin
       mb := getBlockFactory(r => r, uid => uid);
       if mb /= null then
          newInstance(mb => mb.all, b => b);
-         b.meta := mb;
+         makeInstance(mb, b);
       else
          b := null;
       end if;
    end newBlockInstance;
 
 
-end Ay.Block.Registry;
+end Ay.Registry;
