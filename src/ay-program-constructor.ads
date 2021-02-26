@@ -33,36 +33,21 @@ package Ay.Program.Constructor is
    function new_Maker(r : Ay.Registry.P_BlockRegistry) return T_ProgramMaker;
    
 private
-   
-   package TypeVector is new Ada.Containers.Vectors(Index_Type => Positive,
-                                                     Element_Type => T_Signal_Type);
-      
+         
    package BlockVector is new Ada.Containers.Vectors(Index_Type => Positive,
                                                      Element_Type => P_Block);
    
-   type T_Plug is record
-      bid : Natural; -- the block instance index
-      pin : Natural; -- block pin
-   end record;
-   
-   package PlugArray is new Ada.Containers.Vectors(Index_Type => Positive,
-                                                     Element_Type => T_Plug);
-   
-   type T_Connection is record
-      cid : Integer;
-      source : T_Plug;
-      sink : PlugArray.Vector;
-   end record;
-   
    package Connections is new Ada.Containers.Ordered_Maps(Key_Type => Natural,
-                                                      Element_Type => T_Connection);
+                                                          Element_Type => Positive);
+   
+   package References is new Ada.Containers.Vectors(Index_Type => Natural,
+                                                    Element_Type => T_Connector);
    
    type T_ProgramMaker is tagged record
-      vdef : TypeVector.Vector; --variable definitions
       iblock : BlockVector.Vector; -- build-in block sequence
-      conn : Connections.Map;
-      reg : Ay.Registry.P_BlockRegistry;
-      prg : P_UserProgram;
+      conn : Connections.Map; -- connections identities
+      vref : References.Vector; -- variables and connection points references
+      prg : P_UserProgram; -- created program
    end record;   
 
 end Ay.Program.Constructor;

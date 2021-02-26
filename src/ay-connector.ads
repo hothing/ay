@@ -1,6 +1,6 @@
 package Ay.Connector is
 
-   type T_Connector(stype : T_Signal_Type) is private;
+   type T_Connector(stype : T_Signal_Type := DT_Unknown) is private;
    
    type P_Connector is access all T_Connector;
    
@@ -19,7 +19,7 @@ package Ay.Connector is
       
 private
      
-   type T_Connector(stype : T_Signal_Type) is record
+   type T_Connector(stype : T_Signal_Type := DT_Unknown) is record
       case stype is
          when DT_Bool => pb : P_Boolean;
          when DT_Int => pi : P_Integer;

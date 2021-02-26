@@ -1,6 +1,17 @@
+with Ay.Connector; use Ay.Connector;
+
 with Ada.Containers.Ordered_Maps;
 
 package body Ay.Program.Constructor is
+
+   function new_Connector(st : T_Signal_Type) return T_Connector is
+      cp : T_Connector(st);
+   begin
+      case st is
+         when DT_Unknown => raise Program_Error with "Unexpected signal type";
+         when others => init(cp); return cp;
+      end case;
+   end new_Connector;
 
    -----------------------
    -- add_User_Variable --
@@ -13,30 +24,9 @@ package body Ay.Program.Constructor is
    is
    begin
       res := False;
-      m.vdef.Append( dt );
+      null;
       res := True;
    end add_User_Variable;
-
-   procedure add_Variable
-     (m : in out T_ProgramMaker;
-      dt : in T_Signal_Type;
-      res : out Boolean)
-   is
-   begin
-      null;
---        case dt is
---           when DT_Bool =>
---              m.vdef.Append( T_VarReference'(dt, new Boolean) );
---           when DT_Int =>
---              m.vdef.Append( T_VarReference'(dt, new Integer) );
---           when DT_Float =>
---              m.vdef.Append( T_VarReference'(dt, new Float) );
---           when DT_LongFloat =>
---              m.vdef.Append( T_VarReference'(dt, new Long_Float) );
---           when others =>
---              raise Program_Error with "Unssuperted data type";
---        end case;
-   end add_Variable;
 
    ---------------
    -- add_Block --
@@ -66,21 +56,26 @@ package body Ay.Program.Constructor is
       res : out Boolean)
    is
       c : Connections.Cursor;
-      p : T_Connection;
+      p : Natural;
+      b : P_Block;
+      mb : P_Meta_Info;
+      cp : T_Connector;
    begin
       res := False;
-
-      c := m.conn.Find( connId );
-      if Connections.Has_Element(c) then
-         -- aha connection is started
-         p := Connections.Element(c);
-         if p.cid = connId then
-            -- FIXME: inefficient
-            p.sink.Append(T_Plug'(bid => bid,
-                                  pin => pin));
-            Connections.Replace(m.conn, connId, p);
-            res := True;
+      b := m.iblock.Element(bid);
+      if b /=null then
+         c := m.conn.Find( connId );
+         if Connections.Has_Element(c) then
+            p := Connections.Element(c);
+            cp := m.vref.Element(p);
+         else
+            mb := get_Meta(b.all);
+            cp := new_Connector(mb.get_Input_Type(pin));
+            m.vref.Append(cp);
+            m.conn.Include(connId, m.vref.Last_Index);
          end if;
+         connect_Input(b.all, pin, cp, False);
+         res := True;
       end if;
    end connect_In;
 
@@ -95,17 +90,26 @@ package body Ay.Program.Constructor is
       connId : Integer;
       res : out Boolean)
    is
-      mc : Connections.Cursor;
-      c : T_Connection;
+      c : Connections.Cursor;
+      p : Natural;
+      b : P_Block;
+      mb : P_Meta_Info;
+      cp : T_Connector;
    begin
       res := False;
-
-      mc := m.conn.Find( connId );
-      if not Connections.Has_Element(mc) then
-         -- aha connection is not started
-         c.cid := connId;
-         c.source := T_Plug'(bid => bid, pin => pin);
-         m.conn.Include(connId, c);
+      b := m.iblock.Element(bid);
+      if b /= null then
+         c := m.conn.Find( connId );
+         if Connections.Has_Element(c) then
+            p := Connections.Element(c);
+            cp := m.vref.Element(p);
+         else
+            mb := get_Meta(b.all);
+            cp := new_Connector(mb.get_Input_Type(pin));
+            m.vref.Append(cp);
+            m.conn.Include(connId, m.vref.Last_Index);
+         end if;
+         connect_Output(b.all, pin, cp, False);
          res := True;
       end if;
    end connect_Out;
@@ -114,32 +118,49 @@ package body Ay.Program.Constructor is
    -- assemble --
    --------------
 
+
+
+
    procedure assemble (m : in out T_ProgramMaker; res : out Boolean) is
       pb : P_Meta_Info;
-      bs : Positive;
+      bs, vs : Positive;
+      cp : T_Connector;
+      k : Natural;
       use type Ada.Containers.Count_Type;
    begin
       res := False;
       if m.iblock.Length > 0 then
          bs := Positive(m.iblock.Length);
-         m.prg := new T_UserProgram( bs );
+         vs := Positive(m.vref.Length);
+         m.prg := new T_UserProgram( vs, bs );
+         k := m.prg.iblocks'First;
          for b of m.iblock loop
             pb := get_Meta(b.all);
-            -- create all variables for In/Out
-            for i in 1 .. pb.get_Input_Count loop
-               m.vdef.Append(pb.get_Input_Type(i));
-               -- ERROR: it is not possible to connect the variable and the block pin
+            -- create variables for all not connected In/Out
+            for i in 1 .. pb.get_Output_Count loop
+               if not is_In_Connected(b.all, i) then
+                  cp := new_Connector(pb.get_Input_Type(i));
+                  m.vref.Append(cp);
+                  connect_Output(b.all, i, cp, True);
+               end if;
             end loop;
 
-            for i in 1 .. pb.get_Output_Count loop
-               m.vdef.Append(pb.get_Output_Type(i));
-               -- ERROR: it is not possible to connect the variable and the block pin
+            for i in 1 .. pb.get_Input_Count loop
+               if not is_In_Connected(b.all, i) then
+                  cp := new_Connector(pb.get_Input_Type(i));
+                  m.vref.Append(cp);
+                  connect_Input(b.all, i, cp, True);
+               end if;
             end loop;
+            m.prg.iblocks(k) := b; k := k + 1;
+         end loop;
+
+         -- copy all connectors to the program
+         k := m.prg.vars'First;
+         for v of m.vref loop
+            m.prg.vars(k) := v;
          end loop;
       end if;
-      --  Generated stub: replace with real body!
-      pragma Compile_Time_Warning (Standard.True, "assemble unimplemented");
-      raise Program_Error with "Unimplemented procedure assemble";
    end assemble;
 
    ---------------
